@@ -11,17 +11,17 @@ import { EASE } from "@/lib/motion";
 type Props = {
   index: string;
   title: string;
-  /** Katakana en filigrane derrière le titre. */
+  /** Katakana watermark behind the title. */
   jp?: string;
   lead?: string;
-  /** Fragment de l'easter egg caché sur le numéro de section. */
+  /** Easter-egg fragment hidden on the section number. */
   fragmentId?: string;
   aside?: ReactNode;
 };
 
 const inView = { once: true, margin: "-60px" } as const;
 
-/** En-tête de section façon HUD : étiquette de terminal, titre qui glitche, katakana fantôme, cote mesurée. */
+/** HUD-style section header: status bar, glitching title, katakana ghost and live width dimension. */
 export default function SectionHeader({ index, title, jp, lead, fragmentId, aside }: Props) {
   const titleRef = useRef<HTMLSpanElement>(null);
   const number = <span className="tabular-nums">{index}</span>;
@@ -41,7 +41,6 @@ export default function SectionHeader({ index, title, jp, lead, fragmentId, asid
         </motion.span>
       )}
 
-      {/* Barre de statut */}
       <div className="flex items-center gap-3 label text-muted">
         <span className="w-2 h-2 bg-accent animate-[blink_1.2s_steps(1)_infinite]" />
         <span className="text-accent">

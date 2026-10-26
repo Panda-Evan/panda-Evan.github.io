@@ -22,7 +22,7 @@ export default function Experience() {
       <SectionHeader index="02" title={t.experience.title} jp="経歴" lead={t.experience.lead} fragmentId="E" />
 
       <ol ref={listRef} className="relative md:pl-14 space-y-5">
-        {/* Frise : la ligne d'accent se remplit au fil du scroll */}
+        {/* Timeline: the accent line fills up as the user scrolls */}
         <span aria-hidden className="hidden md:block absolute left-[7px] top-0 bottom-0 w-[2px] bg-line" />
         <motion.span
           aria-hidden
@@ -50,7 +50,6 @@ export default function Experience() {
               />
 
               <div className="chamfer bg-surface p-5 md:p-7 grid grid-cols-12 gap-x-6 gap-y-4">
-                {/* Ligne de commande */}
                 <p className="col-span-12 label flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
                   <span className="text-accent">&gt; {t.cyber.log}_{String(i + 1).padStart(2, "0")}</span>
                   <span>::</span>

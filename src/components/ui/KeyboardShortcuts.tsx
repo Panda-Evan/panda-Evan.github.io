@@ -7,7 +7,6 @@ import { useTheme } from "@/lib/ThemeContext";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useLenis } from "lenis/react";
 
-// ── Konami code sequence ──────────────────────────────────────────────────
 const KONAMI = [
   "ArrowUp",
   "ArrowUp",
@@ -21,7 +20,6 @@ const KONAMI = [
   "a",
 ];
 
-// ── Matrix canvas effect ──────────────────────────────────────────────────
 function MatrixOverlay({ onDone }: { onDone: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -91,7 +89,6 @@ function MatrixOverlay({ onDone }: { onDone: () => void }) {
   );
 }
 
-// ── Shortcuts data ────────────────────────────────────────────────────────
 const SHORTCUTS = [
   { key: "?", label: "Afficher ce panel" },
   { key: "G", label: "Ouvrir GitHub" },
@@ -103,7 +100,7 @@ const SHORTCUTS = [
 
 let _konami_fired = false;
 
-// ── Component ─────────────────────────────────────────────────────────────
+/** Global keyboard shortcuts, the "?" help panel and the Konami-code Matrix easter egg. */
 export default function KeyboardShortcuts() {
   const { toggleTheme } = useTheme();
   const { toggleLang } = useLanguage();
@@ -169,7 +166,6 @@ export default function KeyboardShortcuts() {
 
   return (
     <>
-      {/* Shortcuts panel */}
       <AnimatePresence>
         {showPanel && (
           <motion.div
@@ -230,7 +226,6 @@ export default function KeyboardShortcuts() {
         )}
       </AnimatePresence>
 
-      {/* Matrix overlay */}
       <AnimatePresence>
         {showMatrix && (
           <motion.div

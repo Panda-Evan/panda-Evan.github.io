@@ -1,8 +1,8 @@
 import { CSSProperties } from "react";
 
 /**
- * Texte qui "roule" au survol du parent `.group` : chaque lettre glisse vers le haut
- * et laisse place à sa copie, avec un léger décalage par lettre. 100 % CSS (cf. globals.css).
+ * Text that rolls when its `.group` parent is hovered: each letter slides up and is
+ * replaced by its copy, slightly staggered. Pure CSS (see globals.css).
  */
 export default function RollText({
   text,
@@ -10,7 +10,7 @@ export default function RollText({
   className = "",
 }: {
   text: string;
-  /** La copie qui arrive est de la couleur d'accent. */
+  /** Colours the incoming copy with the accent colour. */
   accent?: boolean;
   className?: string;
 }) {

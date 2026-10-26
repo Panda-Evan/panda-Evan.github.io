@@ -19,7 +19,7 @@ import { skillSlug } from "@/lib/projects";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Gestion de l'index d'image courante + sens de l'animation. */
+/** Current gallery index plus the slide direction used by the animation. */
 function useGallery(length: number) {
   const [[index, direction], setState] = useState<[number, number]>([0, 0]);
 
@@ -42,6 +42,7 @@ const slide = {
   exit: (d: number) => ({ x: d >= 0 ? "-8%" : "8%", opacity: 0 }),
 };
 
+/** Gallery image that slides in from the navigation direction and can be swiped. */
 function SlideImage({
   image,
   direction,
@@ -116,6 +117,7 @@ function NavButton({
   );
 }
 
+/** Full-screen viewer; pauses smooth scroll while open and supports arrow keys. */
 function Lightbox({
   project,
   images,
@@ -300,8 +302,8 @@ function Gallery({ project }: { project: Project }) {
 }
 
 /**
- * Taille du titre calée sur le mot le plus long, pour qu'il tienne toujours
- * sur la largeur (Archivo étendu ≈ 1.1em par capitale, M et W compris).
+ * Title size based on its longest word so it always fits the width
+ * (about 1.1em per uppercase letter, M and W included).
  */
 function titleSize(title: string) {
   const longest = Math.max(...title.split(" ").map((w) => w.length));
@@ -309,7 +311,7 @@ function titleSize(title: string) {
   return `clamp(2.25rem, ${vw.toFixed(2)}vw, 10.5rem)`;
 }
 
-/** Le titre "projet suivant" roule sur une seule ligne (desktop) : taille selon sa longueur. */
+/** The "next project" title rolls on a single line on desktop, so its size depends on its length. */
 function nextTitleSize(title: string) {
   const vw = Math.min(8, 80 / (title.length * 0.95));
   return `clamp(2.25rem, ${vw.toFixed(2)}vw, 7rem)`;
@@ -336,7 +338,6 @@ export default function ProjectDetailClient({ project, next, position, total }: 
 
   return (
     <main className="px-5 md:px-10 max-w-[1400px] mx-auto pt-24 md:pt-28 pb-16">
-      {/* Fil d'Ariane */}
       <div className="flex items-center justify-between label text-muted border-b border-line pb-3">
         <TransitionLink
           href="/#projects"
@@ -351,7 +352,6 @@ export default function ProjectDetailClient({ project, next, position, total }: 
         </span>
       </div>
 
-      {/* Titre */}
       <header className="mt-10 md:mt-14">
         <p className="label text-accent mb-4 flex items-center gap-2">
           <span className="w-2 h-2 bg-accent animate-[blink_1.2s_steps(1)_infinite]" />
@@ -376,7 +376,6 @@ export default function ProjectDetailClient({ project, next, position, total }: 
         </motion.p>
       </header>
 
-      {/* Méta */}
       <motion.dl
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -433,7 +432,6 @@ export default function ProjectDetailClient({ project, next, position, total }: 
         </motion.aside>
       )}
 
-      {/* Galerie */}
       <motion.section
         initial={{ clipPath: "inset(100% 0 0 0)" }}
         animate={{ clipPath: "inset(0% 0 -40% 0)" }}
@@ -444,7 +442,6 @@ export default function ProjectDetailClient({ project, next, position, total }: 
         <Gallery key={project.id} project={project} />
       </motion.section>
 
-      {/* Contenu */}
       <div className="grid grid-cols-12 gap-x-6 gap-y-12 mt-20 md:mt-28">
         <motion.section
           className="col-span-12 md:col-span-7"
@@ -498,7 +495,6 @@ export default function ProjectDetailClient({ project, next, position, total }: 
         </section>
       </div>
 
-      {/* Projet suivant */}
       <TransitionLink
         href={`/project/${next.id}`}
         label={next.title}

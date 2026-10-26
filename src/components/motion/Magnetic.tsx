@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ReactNode, useRef } from "react";
 import { useFinePointer } from "@/lib/motion";
 
-/** L'élément est attiré par le curseur quand il passe à proximité, puis revient en ressort. */
+/** Pulls its child towards the nearby cursor, then springs back. */
 export default function Magnetic({
   children,
   strength = 0.3,

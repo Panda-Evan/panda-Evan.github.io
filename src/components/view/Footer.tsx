@@ -20,7 +20,7 @@ function Letter({
   index: number;
   progress: MotionValue<number>;
 }) {
-  // Chaque lettre part d'une profondeur différente : la signature "remonte" en vague.
+  // Each letter starts at a different depth, so the signature rises like a wave.
   const depth = 40 + ((index * 37) % 60);
   const y = useTransform(progress, [0, 1], [`${depth}%`, "0%"]);
   return (

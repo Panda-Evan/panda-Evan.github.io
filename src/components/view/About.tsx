@@ -15,7 +15,7 @@ const reveal = (delay = 0) => ({
   transition: { duration: 0.8, delay, ease: EASE },
 });
 
-/** Carte d'identité façon dossier de netrunner. */
+/** Netrunner-style ID card with portrait and key facts. */
 function IdCard() {
   const { t, lang } = useLanguage();
   const fields = [
@@ -34,7 +34,6 @@ function IdCard() {
       </div>
 
       <div className="mt-5 grid grid-cols-[120px_1fr] sm:grid-cols-[170px_1fr] gap-5">
-        {/* Portrait d'identité */}
         <div className="group relative aspect-[3/4] bg-[#07080a] overflow-hidden">
           <Image
             src="/about/evan.jpg"
@@ -64,7 +63,6 @@ function IdCard() {
         </dl>
       </div>
 
-      {/* Code-barres décoratif */}
       <div
         aria-hidden
         className="mt-5 h-10"
@@ -130,7 +128,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Modules : en dehors du code */}
       <div className="mt-16 md:mt-24">
         <h3 className="label text-accent mb-4">&gt; {t.hobbies.title}</h3>
         <div className="grid md:grid-cols-3 gap-4">

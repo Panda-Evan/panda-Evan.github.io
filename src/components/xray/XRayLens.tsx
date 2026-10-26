@@ -9,9 +9,9 @@ const R = 150;
 const ACCENT = "249, 233, 0";
 
 /**
- * Loupe rayons X : sous le curseur, la page passe en négatif (backdrop-filter)
- * et on dessine la vraie structure du DOM — boîtes, paddings, marges, balises —
- * lue en direct avec elementsFromPoint / getComputedStyle.
+ * X-ray lens: under the cursor the page turns negative (backdrop-filter) and the real
+ * DOM structure is drawn on top (boxes, paddings, margins, tags), read live with
+ * elementsFromPoint / getComputedStyle.
  */
 export default function XRayLens({ onClose }: { onClose: () => void }) {
   const fine = useFinePointer();
@@ -60,7 +60,7 @@ export default function XRayLens({ onClose }: { onClose: () => void }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-      // Échantillonne le disque pour récupérer les éléments réellement sous la loupe.
+      // Sample a grid inside the disc to find the elements actually under the lens.
       const found = new Set<Element>();
       const step = R / 3.2;
       for (let gx = -3; gx <= 3; gx++) {
@@ -89,7 +89,6 @@ export default function XRayLens({ onClose }: { onClose: () => void }) {
       ctx.arc(cx, cy, R, 0, Math.PI * 2);
       ctx.clip();
 
-      // Lignes de balayage du film
       ctx.fillStyle = "rgba(255,255,255,0.035)";
       for (let y = cy - R; y < cy + R; y += 3) ctx.fillRect(cx - R, y, R * 2, 1);
 
@@ -145,7 +144,6 @@ export default function XRayLens({ onClose }: { onClose: () => void }) {
       }
       ctx.restore();
 
-      // Réticule : anneau gradué + croix
       ctx.strokeStyle = "rgba(255,255,255,0.9)";
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -178,7 +176,6 @@ export default function XRayLens({ onClose }: { onClose: () => void }) {
       const coords = `x ${Math.round(cx)}  y ${Math.round(cy + window.scrollY)}`;
       ctx.fillText(coords, cx - ctx.measureText(coords).width / 2, cy - R - 20);
 
-      // Fiche : le vrai code de l'élément visé
       if (focus) {
         const cs = getComputedStyle(focus.el);
         readout.hidden = false;

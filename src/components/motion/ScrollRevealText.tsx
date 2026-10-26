@@ -20,7 +20,7 @@ function Word({
   );
 }
 
-/** Le texte s'"encre" mot à mot au rythme du scroll. */
+/** Text that "inks in" word by word as the user scrolls. */
 export default function ScrollRevealText({
   text,
   className = "",

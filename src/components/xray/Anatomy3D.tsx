@@ -10,7 +10,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { EASE_IN_OUT, useFinePointer, useReducedMotionPref } from "@/lib/motion";
 import { depthOf, describe, isInspectable, startTag } from "./inspect";
 
-/** Un élément HTML réel de la page, en coordonnées document. */
+/** A real element of the page, in document coordinates. */
 type DomNode = {
   el: Element;
   x: number;
@@ -21,12 +21,16 @@ type DomNode = {
   section: boolean;
 };
 
-const GAP = 26; // hauteur entre deux niveaux de profondeur (px)
-const SLAB = 3; // épaisseur d'une dalle (px)
+const GAP = 26; // vertical distance between two DOM depth levels (px)
+const SLAB = 3; // slab thickness (px)
 const ACCENT = new THREE.Color("#f9e900");
 const CYAN = new THREE.Color("#00e5ff");
 const BG = "#05060a";
 
+/**
+ * Walks the visible DOM and returns every inspectable element with its depth.
+ * Above `max` nodes, only the largest ones are kept so the scene stays fluid.
+ */
 function collect(max: number): DomNode[] {
   const nodes: DomNode[] = [];
   const sx = window.scrollX;
@@ -63,6 +67,11 @@ const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t 
 type Stats = { count: number; maxDepth: number; height: number; sections: number };
 type Hover = { x: number; y: number; title: string; tag: string; meta: string } | null;
 
+/**
+ * Full-screen three.js view of the page's own DOM: each element becomes a slab
+ * raised by its nesting depth. The camera starts aligned with the viewport, then
+ * orbits; clicking a slab closes the view and scrolls to that element.
+ */
 export default function Anatomy3D({
   origin,
   onClose,
@@ -106,7 +115,6 @@ export default function Anatomy3D({
       })
     );
 
-    // ── Rendu ──────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, fine ? 2 : 1.5));
     renderer.setSize(vw, vh, false);
@@ -118,7 +126,7 @@ export default function Anatomy3D({
     const topDistance = vh / 2 / Math.tan(THREE.MathUtils.degToRad(fov / 2));
     const center = scrollY + vh / 2;
 
-    // Vue de départ : pile au-dessus de l'écran actuel, les dalles recouvrent exactement la page.
+    // Start view: the stack sits right above the current screen, slabs exactly cover the page.
     const start = {
       pos: new THREE.Vector3(0, topDistance, center),
       target: new THREE.Vector3(0, 0, center),
@@ -142,7 +150,7 @@ export default function Anatomy3D({
     const cx = (n: DomNode) => n.x + n.w / 2 - vw / 2;
     const cz = (n: DomNode) => n.y + n.h / 2;
 
-    // Dalles pleines : mélange additif → plus le DOM est imbriqué, plus c'est lumineux (comme une radio).
+    // Additive blending: the deeper the nesting, the brighter the area, like an X-ray.
     const fillGeo = new THREE.BoxGeometry(1, 1, 1);
     const fillMat = new THREE.MeshBasicMaterial({
       color: 0xffffff,
@@ -171,7 +179,7 @@ export default function Anatomy3D({
       edgeMat.uniforms.uRise.value = rise;
     };
 
-    // Arêtes : un seul buffer, la montée est faite dans le vertex shader.
+    // Edges live in a single buffer; the rise animation happens in the vertex shader.
     const corners = [
       [-0.5, 0, -0.5], [0.5, 0, -0.5], [0.5, 0, 0.5], [-0.5, 0, 0.5],
       [-0.5, 1, -0.5], [0.5, 1, -0.5], [0.5, 1, 0.5], [-0.5, 1, 0.5],
@@ -228,7 +236,6 @@ export default function Anatomy3D({
     edgeLines.frustumCulled = false;
     scene.add(edgeLines);
 
-    // Élément survolé
     const highlight = new THREE.Group();
     const hiFill = new THREE.Mesh(
       fillGeo,
@@ -242,7 +249,7 @@ export default function Anatomy3D({
     highlight.visible = false;
     scene.add(highlight);
 
-    // Étiquettes des sections (HTML projeté)
+    // Section labels are HTML elements positioned from projected 3D points.
     const sectionNodes = nodes.filter((n) => n.section && (n.el.id || n.el.tagName === "FOOTER"));
     const labelEls = sectionNodes.map((n) => {
       const div = document.createElement("div");
@@ -263,7 +270,6 @@ export default function Anatomy3D({
       });
     };
 
-    // ── Animations d'entrée / sortie ─────────────────────────────────────
     let controls: OrbitControls | null = null;
     let tween: { from: typeof start; to: typeof start; riseFrom: number; riseTo: number; t0: number; dur: number; done: () => void } | null = null;
     const lookTarget = new THREE.Vector3();
@@ -306,7 +312,6 @@ export default function Anatomy3D({
       });
     };
 
-    // ── Survol / clic ────────────────────────────────────────────────────
     const raycaster = new THREE.Raycaster();
     const ndc = new THREE.Vector2();
     let pointerDown: { x: number; y: number } | null = null;
@@ -361,7 +366,6 @@ export default function Anatomy3D({
     };
     window.addEventListener("resize", onResize);
 
-    // ── Boucle ───────────────────────────────────────────────────────────
     let frame = 0;
     const loop = (now: number) => {
       if (tween) {
@@ -434,11 +438,9 @@ export default function Anatomy3D({
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full touch-none cursor-grab" />
       <div ref={labelsRef} className="absolute inset-0 pointer-events-none overflow-hidden" />
 
-      {/* Dégradés de lisibilité derrière les panneaux */}
       <div className="absolute top-0 inset-x-0 h-64 pointer-events-none bg-gradient-to-b from-[#05060a] via-[#05060a]/75 to-transparent" />
       <div className="absolute bottom-0 inset-x-0 h-40 pointer-events-none bg-gradient-to-t from-[#05060a] via-[#05060a]/75 to-transparent" />
 
-      {/* Panneau d'information */}
       <div className="absolute top-0 inset-x-0 p-5 md:p-8 flex items-start justify-between gap-6 pointer-events-none">
         <div className="max-w-sm">
           <p className="label text-[#f9e900]">{t.xray.anatomy_kicker}</p>

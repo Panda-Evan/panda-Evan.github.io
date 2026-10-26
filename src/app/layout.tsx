@@ -18,7 +18,7 @@ import { INTRO_SKIP_SCRIPT } from "@/lib/introScript";
 import { PageTransitionProvider } from "@/components/motion/PageTransition";
 import { XRayProvider } from "@/components/xray/XRayContext";
 
-// Titres : Tektur, variable (graisse + chasse) pour l'effet au curseur sur le nom.
+// Tektur is variable (weight + width): the hero name reacts to the cursor on both axes.
 const tektur = Tektur({
   variable: "--font-tektur",
   subsets: ["latin"],
@@ -36,7 +36,7 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-// Katakana décoratifs : chargés à la demande (tranches unicode), pas préchargés.
+// Decorative katakana: loaded on demand (unicode ranges), never preloaded.
 const dela = Dela_Gothic_One({
   variable: "--font-dela",
   weight: "400",

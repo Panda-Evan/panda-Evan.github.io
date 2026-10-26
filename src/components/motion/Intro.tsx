@@ -16,9 +16,10 @@ import { useLanguage } from "@/lib/LanguageContext";
 
 const IntroContext = createContext({ done: true });
 
-/** true quand le contenu peut lancer ses animations d'entrée. */
+/** True once page content may start its entrance animations. */
 export const useIntroDone = () => useContext(IntroContext).done;
 
+/** Boot screen: log lines and a percentage counter, then calls `onReveal`. */
 function Preloader({ onReveal }: { onReveal: () => void }) {
   const counterRef = useRef<HTMLSpanElement>(null);
   const [leaving, setLeaving] = useState(false);
@@ -71,7 +72,6 @@ function Preloader({ onReveal }: { onReveal: () => void }) {
         <span className="jp text-sm text-[#e6eef0]">起動中</span>
       </div>
 
-      {/* Journal de démarrage */}
       <ul className="font-mono text-xs md:text-sm space-y-1.5 text-[#6b7a7f]">
         {lines.slice(0, shown).map((line, i) => (
           <motion.li key={line} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}>
@@ -108,6 +108,10 @@ function Preloader({ onReveal }: { onReveal: () => void }) {
   );
 }
 
+/**
+ * Plays the boot intro once per session on the home page (see introScript.ts)
+ * and exposes `useIntroDone` so entrance animations wait for it.
+ */
 export function IntroProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<"pending" | "playing" | "done">("pending");
 
@@ -132,7 +136,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
             {state === "playing" ? (
               <Preloader onReveal={reveal} />
             ) : (
-              // Rendu serveur / avant hydratation : écran plein pour éviter tout flash.
+              // Server render / before hydration: an opaque screen avoids any flash of content.
               <div data-preloader className="fixed inset-0 z-[1000] bg-[#07080a]" />
             )}
           </motion.div>

@@ -1,9 +1,8 @@
 import { Fragment } from "react";
 
 /**
- * Autorise le retour à la ligne uniquement entre les mots
- * (évite "SITE E- / COMMERCE" sur les grands titres).
- * L'espace reste hors des spans nowrap pour rester un point de coupure.
+ * Allows line breaks between words only (avoids "SITE E- / COMMERCE" on big titles).
+ * Spaces stay outside the nowrap spans so they remain break opportunities.
  */
 export default function Words({ text }: { text: string }) {
   const words = text.split(" ");

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { RefObject, useEffect, useState } from "react";
 import { EASE } from "@/lib/motion";
 
-/** Ligne de cote façon plan technique, avec la largeur réelle de l'élément mesurée en direct. */
+/** Blueprint-style dimension line showing the element's real width, measured live. */
 export default function DimensionLine({
   targetRef,
   className = "",

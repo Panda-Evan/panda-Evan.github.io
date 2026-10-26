@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 /**
- * Texte qui "glitche" : deux copies cyan / rouge décalées et découpées par bandes.
- * `auto` : une salve toutes les ~4,5 s ; sinon uniquement au survol (du texte ou d'un parent .group).
- * Les animations sont en CSS (cf. globals.css) et coupées si prefers-reduced-motion.
+ * Glitching text: offset cyan / red copies sliced into bands.
+ * With `auto` it bursts every ~4.5 s, otherwise only on hover (of the text or a `.group` parent).
+ * Pure CSS (see globals.css), disabled under prefers-reduced-motion.
  */
 export default function Glitch({
   text,
@@ -14,7 +14,7 @@ export default function Glitch({
   text: string;
   auto?: boolean;
   className?: string;
-  /** Rendu personnalisé du texte principal (ex. lettres animées). */
+  /** Custom rendering of the main text (e.g. animated letters); the copies still use `text`. */
   children?: ReactNode;
 }) {
   return (

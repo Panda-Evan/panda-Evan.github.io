@@ -1,8 +1,8 @@
-/** Outils d'introspection du DOM partagés par la loupe et le squelette 3D. */
+/** DOM introspection helpers shared by the X-ray lens and the 3D skeleton. */
 
 const SKIP = new Set(["HTML", "BODY", "SCRIPT", "STYLE", "NOSCRIPT", "BR", "LINK", "META"]);
 
-/** Élément de la page (pas de l'interface rayons X elle-même). */
+/** True for page elements, false for the X-ray UI itself. */
 export function isInspectable(el: Element) {
   if (SKIP.has(el.tagName)) return false;
   if (el.closest("[data-xray-ui], [data-preloader]")) return false;
@@ -12,7 +12,7 @@ export function isInspectable(el: Element) {
 type Box = { margin: number[]; padding: number[] };
 const boxCache = new WeakMap<Element, Box>();
 
-/** Marges et paddings calculés [haut, droite, bas, gauche] (mis en cache). */
+/** Computed margins and paddings as [top, right, bottom, left], cached per element. */
 export function boxModel(el: Element): Box {
   const cached = boxCache.get(el);
   if (cached) return cached;
@@ -30,7 +30,7 @@ export function depthOf(el: Element) {
   return depth;
 }
 
-/** "a#id.class" court, façon DevTools. */
+/** Short DevTools-like label: "a#id.class". */
 export function describe(el: Element, max = 32) {
   const tag = el.tagName.toLowerCase();
   const id = el.id ? `#${el.id}` : "";
@@ -39,7 +39,7 @@ export function describe(el: Element, max = 32) {
   return label.length > max ? `${label.slice(0, max - 1)}…` : label;
 }
 
-/** Balise ouvrante réelle de l'élément, attributs compris. */
+/** The element's real opening tag, attributes included. */
 export function startTag(el: Element, max = 120) {
   const attrs = [...el.attributes]
     .filter((a) => !a.name.startsWith("data-") || a.name === "data-anatomy")

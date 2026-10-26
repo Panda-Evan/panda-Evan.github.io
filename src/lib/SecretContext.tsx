@@ -22,6 +22,7 @@ type SecretContextValue = {
 
 const SecretContext = createContext<SecretContextValue | null>(null);
 
+/** Easter-egg state: E/T/N/A fragments found on the page unlock the "ETNA" code. */
 export function SecretProvider({ children }: { children: ReactNode }) {
   const [foundFragments, setFoundFragments] = useState<string[]>([]);
   const [isUnlocked, setIsUnlocked] = useState(false);

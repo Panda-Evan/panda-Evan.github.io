@@ -6,20 +6,16 @@ import { Trophy, X } from "lucide-react";
 import { useSecret } from "@/lib/SecretContext";
 import { launchConfetti } from "@/lib/confetti";
 
-// ── Storage ──────────────────────────────────────────────────────────────
 const STAGE_KEY = "portfolio_game_v1";
 
-// ── Game data ─────────────────────────────────────────────────────────────
 
 const S2_CIPHER = "PBZOVRA Q'NAARRF Q'RKCREVRAPR NV-WR ?";
 const S2_ANSWER = "3";
 const S3_ANSWER = "panda-evan";
 
-// ── Types ─────────────────────────────────────────────────────────────────
 type GameStage = "s1" | "s2" | "s3" | "done";
 const _fired = { boot: false, s2: false, s3: false };
 
-// ── Helpers ───────────────────────────────────────────────────────────────
 function rot13(s: string) {
   return s.replace(/[A-Za-z]/g, (c) => {
     const b = c <= "Z" ? 65 : 97;
@@ -41,7 +37,6 @@ declare global {
   }
 }
 
-// ── Achievement Modal ─────────────────────────────────────────────────────
 function AchievementModal({ onClose }: { onClose: () => void }) {
   return (
     <motion.div
@@ -131,7 +126,10 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────
+/**
+ * DevTools escape game: finding the hidden E/T/N/A fragments unlocks a 3-stage
+ * puzzle played in the console through `window.evan`. Progress is kept in localStorage.
+ */
 export default function ConsoleGame() {
   const { isUnlocked, tryUnlock, foundFragments } = useSecret();
   const [showModal, setShowModal] = useState(false);
@@ -155,7 +153,6 @@ export default function ConsoleGame() {
     } catch {}
   }
 
-  // ── Styled console helpers ────────────────────────────────────────────
   const V =
     "color:#f9e900;font-family:monospace;font-size:12px;font-weight:bold;";
   const G = "color:#4ade80;font-family:monospace;font-size:12px;";
@@ -188,7 +185,6 @@ export default function ConsoleGame() {
     console.log("%cRéponds avec : evan.answer('username')", M);
   }
 
-  // ── Boot message ─────────────────────────────────────────────────────
   useEffect(() => {
     if (_fired.boot) return;
     _fired.boot = true;
@@ -212,7 +208,6 @@ export default function ConsoleGame() {
     }, 1500);
   }, []);
 
-  // ── Stage 1 → 2 transition ────────────────────────────────────────────
   useEffect(() => {
     if (isUnlocked && gameStage === "s1" && !_fired.s2) {
       _fired.s2 = true;
@@ -223,7 +218,6 @@ export default function ConsoleGame() {
     }
   }, [isUnlocked, gameStage]);
 
-  // ── window.evan API ───────────────────────────────────────────────────
   useEffect(() => {
     const HINTS: Record<GameStage, string[]> = {
       s1: [

@@ -61,7 +61,6 @@ export default function Contact() {
     <section id="contact" className="px-5 md:px-10 max-w-[1400px] mx-auto pt-24 md:pt-40 pb-24">
       <SectionHeader index="04" title={t.contact.title} jp="通信" lead={t.contact.lead} />
 
-      {/* Canal prioritaire : l'email */}
       <motion.a
         href={SOCIALS.email}
         className="group relative block chamfer bg-accent text-accent-ink p-5 md:p-8 overflow-hidden"
@@ -75,7 +74,7 @@ export default function Contact() {
           {t.cyber.channel} {"//"} {t.contact.email_label}
         </span>
         <span className="mt-4 flex items-end justify-between gap-6">
-          {/* Tablette et desktop : taille calculée sur la place restante (marges + flèche) pour tenir sur une ligne */}
+          {/* From md up, the size is computed from the space left (paddings + arrow) so the email fits on one line */}
           <span className="display text-[clamp(1.4rem,5vw,5rem)] md:text-[min(5rem,calc((100vw-17rem)/13.5))] leading-none break-all md:break-normal md:whitespace-nowrap">
             <Glitch text={t.contact.info_email} />
           </span>
@@ -113,7 +112,6 @@ export default function Contact() {
           </div>
         </dl>
 
-        {/* Terminal */}
         <div className="col-span-12 md:col-span-8 chamfer bg-surface overflow-hidden">
           <div className="flex items-center gap-2 px-4 py-2.5 bg-accent text-accent-ink label">
             <span className="w-2.5 h-2.5 bg-red" />

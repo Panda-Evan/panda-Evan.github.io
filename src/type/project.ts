@@ -10,18 +10,18 @@ export type Project = {
   full_description: string;
   category?: "perso" | "ecole";
   /**
-   * "soon" : projet en cours, affiché comme un dossier scellé, sans page dédiée.
-   * "beta" : première version jouable, encore en test (badge + encart sur la page).
+   * - "soon": work in progress, shown as a sealed file without a detail page.
+   * - "beta": first playable version, still being tested (badge + notice on its page).
    */
   status?: "soon" | "beta";
-  /** Accroche des projets "soon". Les passages entre [[ ]] sont caviardés. */
+  /** Teaser of a "soon" project; `[[...]]` passages are redacted. */
   teaser?: string;
   role?: string;
   period?: string;
   highlights?: string[];
-  /** Image de couverture (liste + haut de la page projet). Par défaut : 1re image de la galerie. */
+  /** Cover image for the card and page header. Defaults to the first gallery image. */
   cover?: string;
-  /** Toutes les captures du projet, affichées dans la galerie de la page dédiée. */
+  /** Screenshots shown in the project page gallery. */
   gallery: ProjectImage[];
   github_url?: string | null;
   live_url?: string | null;

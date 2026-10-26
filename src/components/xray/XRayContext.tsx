@@ -11,14 +11,14 @@ import {
 } from "react";
 import XRayLens from "./XRayLens";
 
-// Le squelette WebGL (three.js) n'est chargé qu'à la première ouverture.
+// three.js is only downloaded the first time the skeleton is opened.
 const Anatomy3D = dynamic(() => import("./Anatomy3D"), { ssr: false });
 
 type XRayState = {
-  /** Loupe rayons X qui suit le curseur. */
+  /** X-ray lens following the cursor. */
   lens: boolean;
   toggleLens: () => void;
-  /** Squelette 3D de la page, ouvert depuis le point (x, y) de l'écran. */
+  /** Opens the 3D skeleton, expanding from the screen point (x, y). */
   openAnatomy: (origin?: { x: number; y: number }) => void;
 };
 
@@ -30,6 +30,7 @@ const XRayContext = createContext<XRayState>({
 
 export const useXRay = () => useContext(XRayContext);
 
+/** Owns the X-ray features and their shortcuts: X toggles the lens, A opens the skeleton, Esc closes the lens. */
 export function XRayProvider({ children }: { children: ReactNode }) {
   const [lens, setLens] = useState(false);
   const [anatomy, setAnatomy] = useState<{ x: number; y: number } | null>(null);

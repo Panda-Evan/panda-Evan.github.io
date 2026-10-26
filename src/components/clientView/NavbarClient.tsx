@@ -15,7 +15,7 @@ import { useXRay } from "@/components/xray/XRayContext";
 const SECTIONS = ["projects", "experience", "about", "contact"] as const;
 type SectionId = (typeof SECTIONS)[number];
 
-/** Ancre sur l'accueil (scroll Lenis), lien avec transition depuis les autres pages. */
+/** Smooth-scrolls to the section on the home page; uses the page transition from other pages. */
 function SectionLink({
   id,
   isHome,
@@ -77,7 +77,7 @@ export default function NavbarClient() {
     label: t.nav[id],
   }));
 
-  // Masquée quand on descend, réapparaît dès qu'on remonte.
+  // Hidden while scrolling down, shown again as soon as the user scrolls up.
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -85,7 +85,7 @@ export default function NavbarClient() {
     if (Math.abs(y - prev) > 4) setHidden(y > prev && y > 240);
   });
 
-  // Section active : celle qui traverse le tiers haut de l'écran
+  // Active section: the one crossing the top third of the viewport.
   useEffect(() => {
     if (!isHome) return;
     const observer = new IntersectionObserver(

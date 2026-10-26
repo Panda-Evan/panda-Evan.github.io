@@ -24,7 +24,7 @@ const QUERY_KEY = "skills";
 const matches = (project: Project, skills: string[]) =>
   skills.every((s) => project.technologies.includes(s));
 
-/** Lit / écrit la sélection dans l'URL (?skills=react,typescript) pour qu'un filtre soit partageable. */
+/** Syncs the skill selection with the URL (`?skills=react,typescript`) so a filter can be shared. */
 function useSkillSelection() {
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -47,11 +47,10 @@ function useSkillSelection() {
   return [selected, update] as const;
 }
 
-/** Pas encore de visuel : écran "signal perdu". */
+/** Placeholder for projects without screenshots. */
 function NoSignal({ project, label }: { project: Project; label: string }) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#07080a] text-[#e6eef0] overflow-hidden">
-      {/* Neige TV */}
       <div aria-hidden className="tv-static absolute -inset-1/2 opacity-[0.13]" />
       <div aria-hidden className="hazard absolute inset-x-0 top-0 h-2 opacity-90" />
       <span
@@ -86,7 +85,6 @@ function ContractCard({
       label={project.title}
       className="group relative flex flex-col h-full chamfer bg-surface transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-1"
     >
-      {/* Visuel */}
       <div className={`relative overflow-hidden ${wide ? "aspect-[16/7]" : "aspect-[16/10]"}`}>
         {cover ? (
           <>
@@ -120,7 +118,6 @@ function ContractCard({
         </span>
       </div>
 
-      {/* Contenu */}
       <div className="flex flex-col flex-1 p-5 md:p-6 gap-3">
         <h3 className={`display ${wide ? "text-[clamp(2rem,4vw,3.5rem)]" : "text-[clamp(1.75rem,2.6vw,2.4rem)]"}`}>
           <Glitch text={project.title} />
@@ -147,13 +144,12 @@ function ContractCard({
         </div>
       </div>
 
-      {/* Cadre HUD qui apparaît au survol */}
       <span aria-hidden className="hud absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
     </TransitionLink>
   );
 }
 
-/** Bande de rubalise qui traverse le visuel. */
+/** Scrolling police tape across the card visual. */
 function Tape({ words, className, reverse }: { words: string[]; className: string; reverse?: boolean }) {
   const run = (
     <span className="flex shrink-0 items-center">
@@ -180,7 +176,7 @@ function Tape({ words, className, reverse }: { words: string[]; className: strin
   );
 }
 
-/** Accroche dont les passages entre [[ ]] sont caviardés (le texte caché n'est pas rendu). */
+/** Teaser whose `[[...]]` passages are redacted; the hidden words are never rendered. */
 function Redacted({ text, label }: { text: string; label: string }) {
   return (
     <>
@@ -198,7 +194,7 @@ function Redacted({ text, label }: { text: string; label: string }) {
   );
 }
 
-/** Projet pas encore dévoilé : scène de crime bouclée, pas de page dédiée. */
+/** Unreleased project (`status: "soon"`): sealed crime-scene card without a detail page. */
 function SealedCard({ project, selected }: { project: Project; selected: string[] }) {
   const { t } = useLanguage();
   const s = t.projects.sealed;
@@ -207,7 +203,6 @@ function SealedCard({ project, selected }: { project: Project; selected: string[
     <article className="group relative flex flex-col h-full chamfer bg-surface">
       <div className="relative aspect-[16/10] overflow-hidden bg-[#07080a] text-[#e6eef0]">
         <div aria-hidden className="tv-static absolute -inset-1/2 opacity-[0.07]" />
-        {/* Halo de lampe torche */}
         <div
           aria-hidden
           className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(249,233,0,0.10),transparent_55%)] transition-[background-position] duration-700"
@@ -219,7 +214,6 @@ function SealedCard({ project, selected }: { project: Project; selected: string[
           {project.title}
         </span>
 
-        {/* Plots de preuve */}
         {[
           ["1", "left-[7%] top-[46%]"],
           ["2", "left-[86%] top-[50%]"],
@@ -234,7 +228,6 @@ function SealedCard({ project, selected }: { project: Project; selected: string[
           </span>
         ))}
 
-        {/* Tampon */}
         <span className="absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 -rotate-[10deg] display text-[clamp(1.8rem,3.4vw,2.6rem)] text-[#ff2a4d] border-[3px] border-[#ff2a4d] px-3 pt-1.5 pb-1 mix-blend-screen opacity-90 transition-transform duration-500 group-hover:scale-110">
           {s.stamp}
         </span>
@@ -297,7 +290,7 @@ export default function ProjectsClient({ projects }: Props) {
   const open = filtered.filter((p) => !isSealed(p));
   const sealed = filtered.filter(isSealed);
 
-  /** Nombre de projets si on ajoutait cette compétence à la sélection actuelle. */
+  /** Number of projects that would match if this skill were added to the selection. */
   const countWith = useCallback(
     (skill: string) =>
       projects.filter((p) =>
@@ -317,7 +310,6 @@ export default function ProjectsClient({ projects }: Props) {
     <section id="projects" className="px-5 md:px-10 max-w-[1400px] mx-auto pt-24 md:pt-32">
       <SectionHeader index="01" title={t.projects.title} jp="プロジェクト" lead={t.projects.lead} fragmentId="T" />
 
-      {/* Filtre par compétence : console de sélection */}
       <div className="hud bg-surface/60 p-5 md:p-6 mb-10">
         <div className="flex flex-wrap items-baseline justify-between gap-3 mb-5">
           <p className="label text-accent">
@@ -388,7 +380,6 @@ export default function ProjectsClient({ projects }: Props) {
         </div>
       </div>
 
-      {/* Contrats */}
       <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
         <AnimatePresence initial={false} mode="popLayout">
           {open.map((project, i) => {
@@ -411,7 +402,6 @@ export default function ProjectsClient({ projects }: Props) {
         </AnimatePresence>
       </ul>
 
-      {/* Projets pas encore dévoilés */}
       {sealed.length > 0 && (
         <div className={open.length > 0 ? "mt-16 md:mt-20" : undefined}>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-6 label">

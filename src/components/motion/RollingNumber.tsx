@@ -6,8 +6,8 @@ import { EASE } from "@/lib/motion";
 const DIGITS = "0123456789";
 
 /**
- * Compteur façon odomètre : chaque chiffre est une colonne 0-9 qui défile
- * jusqu'à sa valeur. Les caractères non numériques ("~", "+") restent fixes.
+ * Odometer counter: each digit is a 0-9 column that rolls to its value.
+ * Non-digit characters ("~", "+") stay static.
  */
 export default function RollingNumber({
   value,

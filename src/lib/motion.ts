@@ -2,9 +2,9 @@
 
 import { useSyncExternalStore } from "react";
 
-/** Courbe principale : sortie rapide, arrivée douce. */
+/** Main easing: fast start, soft landing. */
 export const EASE = [0.2, 0.7, 0.2, 1] as const;
-/** Courbe des rideaux (intro, transitions de page). */
+/** Easing for curtains (intro, page transitions). */
 export const EASE_IN_OUT = [0.76, 0, 0.24, 1] as const;
 
 function subscribeMedia(query: string) {
@@ -23,12 +23,12 @@ function useMedia(query: string, serverValue = false) {
   );
 }
 
-/** Souris / trackpad : les effets au survol et magnétiques n'ont de sens qu'ici. */
+/** Mouse or trackpad: hover and magnetic effects only make sense there. */
 export const useFinePointer = () => useMedia("(hover: hover) and (pointer: fine)");
 
 export const useReducedMotionPref = () => useMedia("(prefers-reduced-motion: reduce)");
 
-/** Ramène v dans [min, max[ en boucle (marquees infinis). */
+/** Wraps `v` into [min, max) (used by infinite marquees). */
 export function wrap(min: number, max: number, v: number) {
   const range = max - min;
   return ((((v - min) % range) + range) % range) + min;

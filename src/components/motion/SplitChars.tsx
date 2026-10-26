@@ -15,8 +15,8 @@ const charVariants: Variants = {
 };
 
 /**
- * Titre révélé lettre par lettre, chaque mot dans son propre masque
- * (fonctionne aussi quand le titre passe sur plusieurs lignes).
+ * Letter-by-letter reveal; each word gets its own mask so it also works
+ * when the title wraps onto several lines.
  */
 export default function SplitChars({
   text,
@@ -27,7 +27,7 @@ export default function SplitChars({
 }: {
   text: string;
   trigger?: "inView" | "mount";
-  /** Pour "mount" : retient l'animation (ex. tant que l'intro n'est pas finie). */
+  /** With `trigger="mount"`: holds the animation back (e.g. until the intro is over). */
   play?: boolean;
   delay?: number;
   stagger?: number;

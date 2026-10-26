@@ -334,8 +334,8 @@ export const projects: Project[] = [
     order_index: 11,
     technologies: ["Unreal Engine", "C++", "Blueprints"],
   },
-  // Projets en cours : affichés comme des dossiers scellés, sans page dédiée.
-  // Dans `teaser`, les passages entre [[ ]] sont caviardés à l'affichage.
+  // Work in progress: shown as sealed files, without a detail page.
+  // In `teaser`, passages between [[ ]] are redacted on screen.
   {
     id: "osema",
     title: "Osema",

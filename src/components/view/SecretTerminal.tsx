@@ -94,7 +94,6 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
         className="bg-slate-950 border border-violet-500/50 rounded-2xl p-8 max-w-md w-full relative overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow */}
         <div className="absolute inset-0 bg-violet-600/5 pointer-events-none" />
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -106,7 +105,6 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
           <X className="w-4 h-4" />
         </button>
 
-        {/* Trophy */}
         <motion.div
           initial={{ scale: 0, rotate: -30 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -212,7 +210,6 @@ export default function SecretTerminal() {
         onClick={() => inputRef.current?.focus()}
       >
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
           <div className="text-center mb-10">
             <p className="text-sm font-semibold tracking-widest text-violet-400 uppercase mb-3">
               Easter Egg
@@ -226,9 +223,7 @@ export default function SecretTerminal() {
             <div className="w-16 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-500 mx-auto rounded-full" />
           </div>
 
-          {/* Terminal box */}
           <div className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl shadow-violet-500/10">
-            {/* Terminal top bar */}
             <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 border-b border-slate-700/50">
               <div className="w-3 h-3 rounded-full bg-red-500/70" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
@@ -238,9 +233,7 @@ export default function SecretTerminal() {
               </span>
             </div>
 
-            {/* Terminal content */}
             <div className="p-6 space-y-1.5 min-h-[260px]">
-              {/* Boot sequence */}
               {BOOT_LINES.map((line, i) => (
                 <TypingLine
                   key={i}
@@ -250,7 +243,6 @@ export default function SecretTerminal() {
                 />
               ))}
 
-              {/* Fragment slots */}
               {bootDone && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -299,7 +291,6 @@ export default function SecretTerminal() {
                 </motion.div>
               )}
 
-              {/* Input */}
               {bootDone && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -360,7 +351,6 @@ export default function SecretTerminal() {
                     </form>
                   )}
 
-                  {/* Status messages */}
                   <AnimatePresence>
                     {status === "wrong" && (
                       <motion.p
@@ -380,7 +370,6 @@ export default function SecretTerminal() {
             </div>
           </div>
 
-          {/* Hints */}
           <div className="mt-6 grid gap-2">
             {HINTS.map((hint, i) => (
               <p

@@ -1,7 +1,6 @@
 /**
- * Regroupement des technologies pour le filtre de la section Projets.
- * Une techno utilisée dans un projet mais absente d'ici tombe dans "other"
- * (affiché "Mobile & jeu" : Flutter, Unreal Engine...).
+ * Skill groups for the project filter. A technology used by a project but missing
+ * here falls into "other" (Flutter, Unreal Engine, Pygame…).
  */
 export type SkillGroupKey = "front" | "lang" | "back" | "other";
 

@@ -15,7 +15,7 @@ import { useReducedMotionPref, wrap } from "@/lib/motion";
 
 const COPIES = 4;
 
-/** Bande défilante infinie : accélère avec la vitesse de scroll, s'inverse quand on remonte. */
+/** Infinite marquee that speeds up with scroll velocity and reverses when scrolling up. */
 function Band({
   items,
   speed,

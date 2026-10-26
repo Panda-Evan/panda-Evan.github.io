@@ -22,8 +22,8 @@ type Phase = "idle" | "cover" | "reveal";
 const TransitionContext = createContext<(href: string, label?: string) => void>(() => {});
 
 /**
- * Transition entre pages : un rideau monte en affichant la destination,
- * la route change derrière, puis le rideau se retire vers le haut.
+ * Page transition: a curtain rises showing the destination name, the route changes
+ * behind it, then the curtain leaves upwards.
  */
 export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -55,7 +55,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     router.push(target.current, { scroll: false });
   };
 
-  // La nouvelle route est rendue : on place le scroll puis on retire le rideau.
+  // The new route has rendered: restore the scroll position, then lift the curtain.
   useEffect(() => {
     if (phase !== "cover" || pathname === fromPath.current) return;
     const hash = target.current?.split("#")[1];
@@ -69,7 +69,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
     });
   }, [pathname, phase, lenis]);
 
-  // Filet de sécurité si la route ne change pas (lien vers la page courante).
+  // Safety net for links to the current route, where the pathname never changes.
   useEffect(() => {
     if (phase !== "cover") return;
     const id = setTimeout(() => {
@@ -110,7 +110,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/** Lien interne qui passe par la transition de page. */
+/** Internal link that goes through the page transition. */
 export function TransitionLink({
   href,
   label,

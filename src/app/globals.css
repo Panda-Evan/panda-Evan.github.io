@@ -3,11 +3,10 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design tokens. Un seul jeu de classes (bg-paper, text-ink, text-accent…)
- * qui bascule entre les deux modes :
- *  - sombre (défaut) : noir profond, jaune acide, glitch cyan / rouge ;
- *  - clair : l'écran jaune "système", désaturé pour ne pas éblouir,
- *    encre noire, accent rouge.
+ * Design tokens: one set of utility classes (bg-paper, text-ink, text-accent…) that
+ * switches theme through these variables. Dark is the default; light is a softened
+ * yellow "system screen". Note that `ink` is light in dark mode: panels that must stay
+ * black in both themes use hard-coded colours (#07080a / #f9e900).
  */
 :root {
   --paper: #ece4a2;
@@ -64,7 +63,7 @@ body {
   color: var(--ink);
 }
 
-/* Titres : Tektur, police variable anguleuse (axes wght / wdth) */
+/* Headings: Tektur, an angular variable font (wght / wdth axes). */
 .display {
   font-family: var(--font-display);
   font-weight: 900;
@@ -81,20 +80,18 @@ body {
   text-transform: uppercase;
 }
 
-/* Katakana décoratifs */
 .jp {
   font-family: var(--font-jp);
   letter-spacing: 0;
 }
 
-/* Contour seul, pour les grands textes fantômes */
+/* Outline-only text for the large background "ghost" words. */
 .outline-text {
   color: transparent;
   -webkit-text-stroke: 1px var(--line);
 }
 
-/* ── Formes ─────────────────────────────────────────────────────────────── */
-/* Coins coupés en biseau (haut-droit et bas-gauche), signature de l'interface */
+/* Bevelled corners (top-right and bottom-left), the interface's signature shape. */
 .chamfer {
   --cut: 14px;
   clip-path: polygon(
@@ -118,7 +115,7 @@ body {
   );
 }
 
-/* Cadre HUD : quatre équerres dans les coins */
+/* HUD frame: four corner brackets drawn with background gradients. */
 .hud {
   --hud: var(--accent);
   --hud-len: 14px;
@@ -141,7 +138,7 @@ body {
       no-repeat;
 }
 
-/* Bande de danger */
+/* Diagonal hazard stripes. */
 .hazard {
   background: repeating-linear-gradient(
     -45deg,
@@ -150,7 +147,6 @@ body {
   );
 }
 
-/* Bouton principal : bloc accent biseauté */
 .btn-cyber {
   --cut: 12px;
   clip-path: polygon(
@@ -193,7 +189,7 @@ body {
   color: var(--paper);
 }
 
-/* ── Glitch (cf. Glitch.tsx) ────────────────────────────────────────────── */
+/* Glitch: two coloured copies sliced with clip-path (see Glitch.tsx). */
 .glitch {
   position: relative;
   display: inline-block;
@@ -284,7 +280,7 @@ body {
   }
 }
 
-/* Neige TV pour les écrans "no signal" */
+/* Animated TV noise for "no signal" screens. */
 .tv-static {
   background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27160%27 height=%27160%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%271.1%27 numOctaves=%272%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E");
   animation: tv-static 0.4s steps(4) infinite;
@@ -307,7 +303,7 @@ body {
   }
 }
 
-/* Rubalise "scène de crime" qui défile (cf. SealedCard) */
+/* Scrolling crime-scene tape; the content is duplicated so -50% loops seamlessly. */
 .tape-track {
   display: flex;
   width: max-content;
@@ -322,12 +318,10 @@ body {
   }
 }
 
-/* Plot de preuve numéroté */
 .evidence-tent {
   clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
 }
 
-/* Passage caviardé */
 .redacted {
   background: color-mix(in oklab, var(--muted) 70%, var(--paper));
   color: transparent;
@@ -336,7 +330,6 @@ body {
   -webkit-box-decoration-break: clone;
 }
 
-/* Curseur de terminal */
 .caret::after {
   content: "";
   display: inline-block;
@@ -353,7 +346,6 @@ body {
   }
 }
 
-/* Soulignement animé pour les liens textuels */
 .link-underline {
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 0% 1px;
@@ -386,12 +378,12 @@ body {
   background: var(--accent);
 }
 
-/* ── Intro : masquée avant le premier rendu quand elle ne doit pas jouer ── */
+/* Set before first paint by introScript, so the preloader never flashes when skipped. */
 [data-intro="skip"] [data-preloader] {
   display: none;
 }
 
-/* ── Texte qui roule au survol (cf. RollText) ───────────────────────────── */
+/* Per-letter roll on hover (see RollText); each letter's copy sits right below it. */
 .roll-text {
   display: inline-flex;
   overflow: hidden;
@@ -417,7 +409,7 @@ body {
   transform: translateY(-100%);
 }
 
-/* ── Écran CRT : lignes de balayage + vignette ──────────────────────────── */
+/* CRT overlay: scanlines + vignette over the whole page. */
 body::after {
   content: "";
   position: fixed;
@@ -451,7 +443,7 @@ body::after {
     );
 }
 
-/* Élément ciblé depuis le squelette 3D */
+/* Highlight for the element picked in the 3D skeleton. */
 .xray-flash {
   animation: xray-flash 2.4s ease-out;
 }

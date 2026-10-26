@@ -21,7 +21,7 @@ import RollingNumber from "@/components/motion/RollingNumber";
 import { useXRay } from "@/components/xray/XRayContext";
 import { boxModel, describe } from "@/components/xray/inspect";
 
-/** Axes de la police variable Tektur : graisse et chasse. */
+/** Tektur variable-font axes: weight and width. */
 const BASE = { wght: 900, wdth: 100 };
 const PEAK = { wght: 400, wdth: 75 };
 
@@ -44,8 +44,8 @@ function useParisTime() {
 }
 
 /**
- * Les lettres proches du curseur s'affinent et se resserrent (axes wght / wdth),
- * avec un lissage par frame. La boucle s'arrête dès que tout est revenu au repos.
+ * Letters near the cursor get lighter and narrower (wght / wdth axes), eased every frame.
+ * The animation loop stops as soon as every letter is back at rest.
  */
 function useVariableProximity(
   zoneRef: RefObject<HTMLElement | null>,
@@ -121,7 +121,7 @@ type Measured = {
   padding: number[];
 };
 
-/** Mesure les blocs marqués data-anatomy dans le calque contenu (positions hors transformations). */
+/** Measures the `data-anatomy` blocks of the content layer (positions without transforms). */
 function useAnatomyBoxes(layerRef: RefObject<HTMLDivElement | null>, deps: unknown[]) {
   const [boxes, setBoxes] = useState<Measured[]>([]);
 
@@ -222,7 +222,7 @@ function FadeIn({
   );
 }
 
-/** Un calque de la pile 3D : il s'écarte des autres sur l'axe Z quand la page s'éclate. */
+/** One layer of the 3D stack; it moves away from the others on the Z axis as the page explodes. */
 function Layer({
   index,
   spread,
@@ -238,7 +238,7 @@ function Layer({
   children: React.ReactNode;
   fade?: boolean;
 }) {
-  // Écartement centré sur le milieu de la pile (4 calques : -1.5 … +1.5).
+  // Spread is centred on the middle of the stack (4 layers: -1.5 … +1.5).
   const z = useTransform(explode, (e) => e * (index - 1.5) * spread);
   const opacity = useTransform(explode, [0, 0.35], [0, 1]);
   return (
@@ -259,6 +259,10 @@ function Layer({
   );
 }
 
+/**
+ * Hero as an anatomy plate: four CSS-3D layers (grid, box model, components, content)
+ * explode along Z while scrolling through a tall sticky track, then reassemble.
+ */
 export default function Hero() {
   const { t } = useLanguage();
   const time = useParisTime();
@@ -275,7 +279,7 @@ export default function Hero() {
   const boxes = useAnatomyBoxes(contentRef, [play, t]);
   const [domCount, setDomCount] = useState(0);
 
-  // La page s'éclate en calques au milieu de la piste de scroll, puis se réassemble.
+  // The page explodes into layers halfway through the scroll track, then reassembles.
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
   const rawExplode = useTransform(scrollYProgress, [0.03, 0.34, 0.66, 0.95], [0, 1, 1, 0]);
   const explode = useSpring(rawExplode, { stiffness: 90, damping: 22, mass: 0.6 });
@@ -318,7 +322,7 @@ export default function Hero() {
           className="relative h-full max-w-[1400px] mx-auto"
           style={reduced ? undefined : { rotateX, rotateZ, scale, y, transformStyle: "preserve-3d" }}
         >
-          {/* L0 — la grille de mise en page */}
+          {/* L0: layout grid */}
           <Layer index={0} spread={spread} explode={explode} label={t.anatomy.layers.grid}>
             <div className={`absolute inset-0 ${pad} border border-dashed border-ink/40`}>
               <div
@@ -335,7 +339,7 @@ export default function Hero() {
             </div>
           </Layer>
 
-          {/* L1 — box model mesuré sur les vrais éléments */}
+          {/* L1: box model measured on the real elements */}
           <Layer index={1} spread={spread} explode={explode} label={t.anatomy.layers.box}>
             {boxes.map((b, i) => (
               <div key={i}>
@@ -358,7 +362,7 @@ export default function Hero() {
             ))}
           </Layer>
 
-          {/* L2 — les composants, étiquetés comme dans les DevTools */}
+          {/* L2: components, labelled as in DevTools */}
           <Layer index={2} spread={spread} explode={explode} label={t.anatomy.layers.components}>
             {boxes.map((b, i) => (
               <div
@@ -373,10 +377,9 @@ export default function Hero() {
             ))}
           </Layer>
 
-          {/* L3 — le contenu réel */}
+          {/* L3: actual content */}
           <Layer index={3} spread={spread} explode={explode} label={t.anatomy.layers.content} fade={false}>
             <div ref={contentRef} className={`absolute inset-0 ${pad} pt-20 md:pt-24 pb-6 flex flex-col`}>
-              {/* Barre d'état HUD : identité / position / statut / horloge */}
               <FadeIn
                 play={play}
                 delay={0.05}
@@ -401,7 +404,6 @@ export default function Hero() {
                 </span>
               </FadeIn>
 
-              {/* Nom : réagit au curseur (police variable), katakana en filigrane */}
               <div className="relative mt-4 md:mt-6 self-start">
                 <span
                   aria-hidden
@@ -437,7 +439,6 @@ export default function Hero() {
                 </FadeIn>
               </div>
 
-              {/* Brief + actions */}
               <div className="grid grid-cols-12 gap-x-6 gap-y-4 mt-4 md:mt-6">
                 <FadeIn play={play} delay={0.75} anatomy className="col-span-12 md:col-span-7 lg:col-span-6">
                   <div className="hud bg-surface/80 px-4 py-3 md:px-5 md:py-4">
@@ -497,7 +498,6 @@ export default function Hero() {
                 </FadeIn>
               </div>
 
-              {/* Chiffres : modules HUD */}
               <FadeIn play={play} delay={1} anatomy className="mt-auto pt-4">
                 <dl className="grid grid-cols-4 gap-2 md:gap-3">
                   {facts.map((fact, i) => (
@@ -518,7 +518,7 @@ export default function Hero() {
           </Layer>
         </motion.div>
 
-        {/* Légende de la planche, visible quand la page est éclatée */}
+        {/* Caption, only shown while the page is exploded */}
         {!reduced && (
           <motion.div
             style={{ opacity: captionOpacity }}

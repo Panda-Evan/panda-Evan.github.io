@@ -4,9 +4,8 @@ import { ReactLenis } from "lenis/react";
 import { ReactNode } from "react";
 
 /**
- * Scroll inertiel (Lenis) sur la fenêtre : les animations liées au scroll
- * (useScroll de Framer Motion) restent synchronisées car c'est bien window qui défile.
- * Lenis respecte prefers-reduced-motion par défaut.
+ * Inertial scrolling (Lenis) on the window itself, so Framer Motion's `useScroll`
+ * stays in sync. Programmatic scrolls should go through `useLenis()`.
  */
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   return (
