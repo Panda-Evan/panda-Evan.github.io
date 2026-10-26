@@ -7,7 +7,7 @@ export type SkillGroupKey = "front" | "lang" | "back" | "other";
 export const skillGroups: { key: SkillGroupKey; skills: string[] }[] = [
   {
     key: "front",
-    skills: ["React", "Next.js", "Tailwind CSS", "SCSS", "Framer Motion", "Pyodide"],
+    skills: ["React", "Next.js", "Tailwind CSS", "SCSS", "Framer Motion", "Three.js", "Pyodide"],
   },
   {
     key: "lang",

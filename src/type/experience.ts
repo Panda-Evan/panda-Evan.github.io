@@ -9,5 +9,8 @@ export type ExperienceItem = {
   period_end: string | null;
   desc_fr: string;
   desc_en: string;
+  /** Optional bullet points rendered under the description. */
+  highlights_fr?: string[];
+  highlights_en?: string[];
   tags?: string[];
 };

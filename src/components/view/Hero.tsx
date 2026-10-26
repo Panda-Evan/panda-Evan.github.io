@@ -300,7 +300,7 @@ export default function Hero() {
 
   const facts = [
     { value: "3", label: t.hero.facts.years },
-    { value: "~2", label: t.hero.facts.cadence },
+    { value: "123", label: t.hero.facts.cadence },
     { value: String(sortedProjects.length), label: t.hero.facts.projects },
     { value: String(allSkills.length), label: t.hero.facts.techs },
   ];
