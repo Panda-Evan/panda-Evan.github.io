@@ -17,5 +17,5 @@ export function LinkedinIcon({ className }: { className?: string }) {
 export const SOCIALS = {
   github: "https://github.com/Panda-Evan",
   linkedin: "https://www.linkedin.com/in/e-quinchon/",
-  email: "mailto:evan.quinchon@outlook.fr",
+  email: "mailto:evan.quinchon42@gmail.com",
 };

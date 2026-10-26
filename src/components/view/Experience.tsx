@@ -32,6 +32,7 @@ export default function Experience() {
 
         {experienceItems.map((item, i) => {
           const ongoing = item.period_end === null;
+          const highlights = lang === "fr" ? item.highlights_fr : item.highlights_en;
           return (
             <motion.li
               key={item.id}
@@ -78,6 +79,16 @@ export default function Experience() {
                   <p className="mt-4 text-muted leading-relaxed text-pretty max-w-2xl">
                     {lang === "fr" ? item.desc_fr : item.desc_en}
                   </p>
+                  {highlights && highlights.length > 0 && (
+                    <ul className="mt-4 space-y-2 max-w-2xl">
+                      {highlights.map((h) => (
+                        <li key={h} className="flex gap-3 text-sm leading-relaxed text-pretty">
+                          <span aria-hidden className="font-mono text-accent shrink-0">&gt;</span>
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {item.tags && item.tags.length > 0 && (
