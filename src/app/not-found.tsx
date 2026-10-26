@@ -1,74 +1,43 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Home } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NotFound() {
-  const [path] = useState(() =>
-    typeof window !== "undefined" ? window.location.pathname : "..."
-  );
+  const [path, setPath] = useState("...");
+
+  useEffect(() => {
+    queueMicrotask(() => setPath(window.location.pathname));
+  }, []);
 
   return (
-    <section className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-8 relative overflow-hidden">
-      {/* Background blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-violet-500/8 dark:bg-violet-500/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-fuchsia-500/8 dark:bg-fuchsia-500/5 rounded-full blur-3xl" />
-      </div>
+    <main className="min-h-[100svh] px-5 md:px-10 max-w-[1400px] mx-auto pt-28 pb-16 flex flex-col">
+      <p className="label text-muted border-b border-line pb-3">Erreur 404</p>
 
-      <div className="relative text-center max-w-xl mx-auto">
-        {/* 404 */}
-        <motion.div
-          initial={{ scale: 0.7, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-          className="select-none"
-        >
-          <span className="font-black text-[140px] md:text-[180px] leading-none bg-gradient-to-br from-violet-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
-            404
-          </span>
-        </motion.div>
+      <h1 className="display text-[clamp(6rem,30vw,26rem)] mt-8">
+        404<span className="text-accent">.</span>
+      </h1>
 
-        {/* Terminal block */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="font-mono text-sm text-left bg-slate-900 rounded-xl p-5 mb-8 border border-slate-700/60 shadow-xl"
-        >
-          <p className="text-red-400">
-            <span className="text-slate-600">$ </span>
-            SegmentationFault: page not found at{" "}
-            <span className="text-red-300">0x404</span>
+      <div className="mt-auto grid grid-cols-12 gap-6 border-t border-ink pt-6">
+        <div className="col-span-12 md:col-span-6 font-mono text-sm space-y-1.5">
+          <p>
+            <span className="text-muted">$ </span>cd {path}
           </p>
-          <p className="text-slate-500 mt-1.5">
-            <span className="text-slate-600">$ </span>
-            trace: <span className="text-slate-400">{path}</span>
+          <p className="text-accent">
+            <span className="text-muted">$ </span>no such file or directory
           </p>
-          <p className="text-green-400 mt-1.5">
-            <span className="text-slate-600">$ </span>
-            suggestion: cd /home
-            <span className="inline-block w-1.5 h-3.5 bg-green-400 ml-1 mb-[-2px] animate-pulse" />
-          </p>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-        >
+        </div>
+        <div className="col-span-12 md:col-span-6 md:text-right">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-violet-500/30 hover:-translate-y-0.5 transition-all duration-300"
+            className="group inline-flex items-center gap-3 bg-ink text-paper px-5 py-3 font-medium hover:bg-accent hover:text-accent-ink transition-colors"
           >
-            <Home className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
             Retour à l&apos;accueil
           </Link>
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </main>
   );
 }

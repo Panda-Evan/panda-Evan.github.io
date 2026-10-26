@@ -1,168 +1,107 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Briefcase, GraduationCap } from "lucide-react";
-import AnimatedSection from "@/components/ui/AnimatedSection";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { useRef } from "react";
+import SectionHeader from "@/components/ui/SectionHeader";
+import Glitch from "@/components/motion/Glitch";
 import { useLanguage } from "@/lib/LanguageContext";
 import { experienceItems } from "@/data/experience";
-import SecretFragment from "@/components/ui/SecretFragment";
+import { EASE } from "@/lib/motion";
 
 export default function Experience() {
   const { t, lang } = useLanguage();
-
-  const workItems = experienceItems.filter((i) => i.type === "work");
-  const eduItems = experienceItems.filter((i) => i.type === "education");
+  const listRef = useRef<HTMLOListElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 0.75", "end 0.6"],
+  });
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
   return (
-    <section id="experience" className="py-24 bg-white dark:bg-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <AnimatedSection className="text-center mb-16">
-          <p className="text-sm font-semibold tracking-widest text-violet-600 dark:text-violet-400 uppercase mb-3">
-            {t.experience.subtitle}
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4">
-            {t.experience.title}
-          </h2>
-          <SecretFragment fragmentId="E" requiredClicks={3}>
-            <div className="w-16 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-500 mx-auto rounded-full" />
-          </SecretFragment>
-        </AnimatedSection>
+    <section id="experience" className="px-5 md:px-10 max-w-[1400px] mx-auto pt-24 md:pt-40">
+      <SectionHeader index="02" title={t.experience.title} jp="経歴" lead={t.experience.lead} fragmentId="E" />
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Work */}
-          <div>
-            <AnimatedSection
-              direction="left"
-              className="flex items-center gap-3 mb-8"
+      <ol ref={listRef} className="relative md:pl-14 space-y-5">
+        {/* Frise : la ligne d'accent se remplit au fil du scroll */}
+        <span aria-hidden className="hidden md:block absolute left-[7px] top-0 bottom-0 w-[2px] bg-line" />
+        <motion.span
+          aria-hidden
+          className="hidden md:block absolute left-[7px] top-0 bottom-0 w-[2px] bg-accent origin-top shadow-[0_0_12px_var(--accent)]"
+          style={{ scaleY: progress }}
+        />
+
+        {experienceItems.map((item, i) => {
+          const ongoing = item.period_end === null;
+          return (
+            <motion.li
+              key={item.id}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.05, ease: EASE }}
+              className="group relative"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center">
-                <Briefcase className="w-5 h-5 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                {t.experience.work}
-              </h3>
-            </AnimatedSection>
+              <motion.span
+                aria-hidden
+                className="hidden md:block absolute -left-14 top-7 w-4 h-4 border-2 border-line bg-paper rotate-45"
+                whileInView={{ backgroundColor: "var(--accent)", borderColor: "var(--accent)" }}
+                viewport={{ margin: "-45% 0px -45% 0px" }}
+                transition={{ duration: 0.3 }}
+              />
 
-            <div className="relative">
-              <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 to-transparent" />
-              <div className="space-y-6">
-                {workItems.map((item, i) => (
-                  <AnimatedSection
-                    key={item.id}
-                    direction="left"
-                    delay={i * 0.1}
+              <div className="chamfer bg-surface p-5 md:p-7 grid grid-cols-12 gap-x-6 gap-y-4">
+                {/* Ligne de commande */}
+                <p className="col-span-12 label flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
+                  <span className="text-accent">&gt; {t.cyber.log}_{String(i + 1).padStart(2, "0")}</span>
+                  <span>::</span>
+                  <span className="text-ink tabular-nums">
+                    {item.period_start} → {item.period_end ?? t.experience.present}
+                  </span>
+                  <span>::</span>
+                  <span>{item.type === "work" ? t.experience.work : t.experience.education}</span>
+                  <span
+                    className={`ml-auto px-2 py-0.5 ${
+                      ongoing ? "bg-accent text-accent-ink" : "border border-line text-ink"
+                    }`}
                   >
-                    <motion.div
-                      whileHover={{ x: 4 }}
-                      className="relative pl-10"
-                    >
-                      <div className="absolute left-0 top-5 w-8 h-8 rounded-full bg-white dark:bg-slate-800 border-2 border-violet-500 flex items-center justify-center">
-                        <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500" />
-                      </div>
-                      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-100 dark:border-slate-700 hover:border-violet-200 dark:hover:border-violet-700/50 hover:shadow-lg hover:shadow-violet-500/5 transition-all duration-300">
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <h4 className="font-bold text-slate-900 dark:text-white text-sm leading-tight">
-                            {lang === "fr" ? item.title_fr : item.title_en}
-                          </h4>
-                        </div>
-                        <p className="text-violet-600 dark:text-violet-400 font-semibold text-sm mb-1">
-                          {item.org}
-                        </p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">
-                          {item.period_start} -{" "}
-                          {item.period_end ?? t.experience.present}
-                          {item.location ? ` · ${item.location}` : ""}
-                        </p>
-                        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                          {lang === "fr" ? item.desc_fr : item.desc_en}
-                        </p>
-                        {item.tags && item.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mt-3">
-                            {item.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="px-2 py-0.5 text-xs rounded-md bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-100 dark:border-violet-800/50"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  </AnimatedSection>
-                ))}
-              </div>
-            </div>
-          </div>
+                    {ongoing ? (lang === "fr" ? "En cours" : "Running") : lang === "fr" ? "Complété ✓" : "Completed ✓"}
+                  </span>
+                </p>
 
-          {/* Education */}
-          <div>
-            <AnimatedSection
-              direction="right"
-              className="flex items-center gap-3 mb-8"
-            >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                {t.experience.education}
-              </h3>
-            </AnimatedSection>
+                <div className="col-span-12 md:col-span-8">
+                  <h3 className="display text-2xl md:text-4xl">
+                    <Glitch text={lang === "fr" ? item.title_fr : item.title_en} />
+                  </h3>
+                  <p className="mt-2 font-mono text-sm">
+                    <span className="text-accent">@</span> {item.org}
+                    {item.location && <span className="text-muted"> · {item.location}</span>}
+                  </p>
+                  <p className="mt-4 text-muted leading-relaxed text-pretty max-w-2xl">
+                    {lang === "fr" ? item.desc_fr : item.desc_en}
+                  </p>
+                </div>
 
-            <div className="relative">
-              <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-fuchsia-500/50 to-transparent" />
-              <div className="space-y-6">
-                {eduItems.map((item, i) => (
-                  <AnimatedSection
-                    key={item.id}
-                    direction="right"
-                    delay={i * 0.1}
-                  >
-                    <motion.div
-                      whileHover={{ x: 4 }}
-                      className="relative pl-10"
-                    >
-                      <div className="absolute left-0 top-5 w-8 h-8 rounded-full bg-white dark:bg-slate-800 border-2 border-fuchsia-500 flex items-center justify-center">
-                        <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-500" />
-                      </div>
-                      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-100 dark:border-slate-700 hover:border-fuchsia-200 dark:hover:border-fuchsia-700/50 hover:shadow-lg hover:shadow-fuchsia-500/5 transition-all duration-300">
-                        <h4 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">
-                          {lang === "fr" ? item.title_fr : item.title_en}
-                        </h4>
-                        <p className="text-fuchsia-600 dark:text-fuchsia-400 font-semibold text-sm mb-1">
-                          {item.org}
-                        </p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 mb-3">
-                          {item.period_start} -{" "}
-                          {item.period_end ?? t.experience.present}
-                          {item.location ? ` · ${item.location}` : ""}
-                        </p>
-                        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                          {lang === "fr" ? item.desc_fr : item.desc_en}
-                        </p>
-                        {item.tags && item.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mt-3">
-                            {item.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="px-2 py-0.5 text-xs rounded-md bg-fuchsia-50 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-300 border border-fuchsia-100 dark:border-fuchsia-800/50"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  </AnimatedSection>
-                ))}
+                {item.tags && item.tags.length > 0 && (
+                  <ul className="col-span-12 md:col-span-4 flex flex-wrap md:justify-end content-start gap-1.5">
+                    {item.tags.map((tag, j) => (
+                      <motion.li
+                        key={tag}
+                        initial={{ opacity: 0, y: 8 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: 0.3 + j * 0.05, ease: EASE }}
+                        className="font-mono text-[0.68rem] uppercase px-2 py-1 border border-line text-muted"
+                      >
+                        {tag}
+                      </motion.li>
+                    ))}
+                  </ul>
+                )}
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </motion.li>
+          );
+        })}
+      </ol>
     </section>
   );
 }

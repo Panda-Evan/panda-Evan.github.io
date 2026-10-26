@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Command, X } from "lucide-react";
 import { useTheme } from "@/lib/ThemeContext";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useLenis } from "lenis/react";
 
 // ── Konami code sequence ──────────────────────────────────────────────────
 const KONAMI = [
@@ -106,6 +107,7 @@ let _konami_fired = false;
 export default function KeyboardShortcuts() {
   const { toggleTheme } = useTheme();
   const { toggleLang } = useLanguage();
+  const lenis = useLenis();
   const [showPanel, setShowPanel] = useState(false);
   const [showMatrix, setShowMatrix] = useState(false);
   const konamiIdx = useRef(0);
@@ -143,9 +145,9 @@ export default function KeyboardShortcuts() {
         return;
       }
       if (k === "c") {
-        document
-          .getElementById("contact")
-          ?.scrollIntoView({ behavior: "smooth" });
+        const contact = document.getElementById("contact");
+        if (contact && lenis) lenis.scrollTo(contact, { offset: -72, duration: 1.6 });
+        else contact?.scrollIntoView({ behavior: "smooth" });
         return;
       }
       if (k === "t") {
@@ -157,7 +159,7 @@ export default function KeyboardShortcuts() {
         return;
       }
     },
-    [toggleTheme, toggleLang],
+    [toggleTheme, toggleLang, lenis],
   );
 
   useEffect(() => {
@@ -167,18 +169,6 @@ export default function KeyboardShortcuts() {
 
   return (
     <>
-      {/* Shortcuts hint - bottom right corner */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        onClick={() => setShowPanel((p) => !p)}
-        className="fixed bottom-6 right-20 z-[90] w-7 h-7 rounded-lg bg-slate-200/80 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-xs font-mono flex items-center justify-center hover:border-violet-400 hover:text-violet-500 transition-all duration-200 backdrop-blur-sm"
-        aria-label="Raccourcis clavier"
-      >
-        ?
-      </motion.button>
-
       {/* Shortcuts panel */}
       <AnimatePresence>
         {showPanel && (
@@ -186,27 +176,27 @@ export default function KeyboardShortcuts() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[400] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-ink/40 z-[400] flex items-center justify-center p-4"
             onClick={() => setShowPanel(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 max-w-xs w-full shadow-2xl"
+              initial={{ y: 12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 8, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-paper border border-ink p-6 max-w-xs w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
-                  <Command className="w-4 h-4 text-violet-500" />
-                  <span className="font-bold text-slate-900 dark:text-white text-sm">
+                  <Command className="w-4 h-4 text-accent" />
+                  <span className="font-semibold text-sm">
                     Raccourcis clavier
                   </span>
                 </div>
                 <button
                   onClick={() => setShowPanel(false)}
-                  className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                  className="text-muted hover:text-ink transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -218,19 +208,19 @@ export default function KeyboardShortcuts() {
                     key={key}
                     className="flex items-center justify-between py-1"
                   >
-                    <span className="text-slate-500 dark:text-slate-400 text-sm">
+                    <span className="text-muted text-sm">
                       {label}
                     </span>
-                    <kbd className="px-2 py-0.5 text-xs font-mono bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded text-slate-600 dark:text-slate-300">
+                    <kbd className="px-2 py-0.5 text-xs font-mono border border-line">
                       {key}
                     </kbd>
                   </div>
                 ))}
               </div>
 
-              <p className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400 dark:text-slate-600 text-center font-mono">
+              <p className="mt-4 pt-4 border-t border-line text-xs text-muted text-center font-mono">
                 Appuie sur{" "}
-                <kbd className="px-1 bg-slate-100 dark:bg-slate-800 rounded text-slate-500">
+                <kbd className="px-1 border border-line">
                   ?
                 </kbd>{" "}
                 pour fermer

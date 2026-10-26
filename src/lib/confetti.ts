@@ -9,7 +9,7 @@ export function launchConfetti() {
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d")!;
-  const colors = ["#8b5cf6", "#d946ef", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#f97316"];
+  const colors = ["#ff5a24", "#e8400c", "#141413", "#ecebe6", "#8f8c85"];
 
   const particles = Array.from({ length: 130 }, () => ({
     x: Math.random() * canvas.width,

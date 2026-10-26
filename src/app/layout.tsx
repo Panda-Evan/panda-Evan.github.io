@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Chakra_Petch, Dela_Gothic_One, JetBrains_Mono, Tektur } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import { LanguageProvider } from "@/lib/LanguageContext";
@@ -8,29 +9,49 @@ import Navbar from "@/components/view/Navbar";
 import Footer from "@/components/view/Footer";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import BackToTop from "@/components/ui/BackToTop";
-import LoadingScreen from "@/components/ui/LoadingScreen";
-import CustomCursor from "@/components/ui/CustomCursor";
 import ConsoleGame from "@/components/ui/ConsoleGame";
 import KeyboardShortcuts from "@/components/ui/KeyboardShortcuts";
+import MotionProvider from "@/components/ui/MotionProvider";
+import SmoothScroll from "@/components/motion/SmoothScroll";
+import { IntroProvider } from "@/components/motion/Intro";
+import { INTRO_SKIP_SCRIPT } from "@/lib/introScript";
+import { PageTransitionProvider } from "@/components/motion/PageTransition";
+import { XRayProvider } from "@/components/xray/XRayContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Titres : Tektur, variable (graisse + chasse) pour l'effet au curseur sur le nom.
+const tektur = Tektur({
+  variable: "--font-tektur",
+  subsets: ["latin"],
+  axes: ["wdth"],
+});
+
+const chakra = Chakra_Petch({
+  variable: "--font-chakra",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Katakana décoratifs : chargés à la demande (tranches unicode), pas préchargés.
+const dela = Dela_Gothic_One({
+  variable: "--font-dela",
+  weight: "400",
   subsets: ["latin"],
+  preload: false,
 });
 
 export const metadata: Metadata = {
-  title: "Evan Quinchon - Développeur Full Stack",
+  title: "Evan Quinchon - Développeur Front-End",
   description:
-    "Portfolio d'Evan Quinchon, développeur web Full Stack passionné par React, Next.js et les expériences web modernes.",
+    "Portfolio d'Evan Quinchon, développeur front-end React / Next.js / TypeScript basé à Paris.",
   authors: [{ name: "Evan Quinchon" }],
   keywords: [
     "développeur",
-    "full stack",
+    "front-end",
     "react",
     "next.js",
     "typescript",
@@ -48,25 +69,34 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';if((t||d)==='dark')document.documentElement.classList.add('dark');}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if((t||'dark')==='dark')document.documentElement.classList.add('dark');}catch(e){}})()`,
           }}
         />
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SKIP_SCRIPT }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white`}
+        className={`${tektur.variable} ${chakra.variable} ${jetbrains.variable} ${dela.variable} font-sans antialiased bg-paper text-ink`}
       >
         <ThemeProvider>
           <LanguageProvider>
             <SecretProvider>
-              <ConsoleGame />
-              <KeyboardShortcuts />
-              <LoadingScreen />
-              <CustomCursor />
-              <ScrollProgress />
-              <Navbar />
-              {children}
-              <BackToTop />
-              <Footer />
+              <SmoothScroll>
+                <MotionProvider>
+                  <IntroProvider>
+                    <PageTransitionProvider>
+                      <XRayProvider>
+                        <ConsoleGame />
+                        <KeyboardShortcuts />
+                        <ScrollProgress />
+                        <Navbar />
+                        {children}
+                        <BackToTop />
+                        <Footer />
+                      </XRayProvider>
+                    </PageTransitionProvider>
+                  </IntroProvider>
+                </MotionProvider>
+              </SmoothScroll>
             </SecretProvider>
           </LanguageProvider>
         </ThemeProvider>

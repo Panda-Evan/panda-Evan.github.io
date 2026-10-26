@@ -1,22 +1,18 @@
 import Hero from "./Hero";
-import Stats from "./Stats";
-import About from "./About";
-import Skills from "./Skill";
-import Experience from "./Experience";
+import Ticker from "./Ticker";
 import Projects from "./Project";
-import Hobbies from "./Hobbies";
+import Experience from "./Experience";
+import About from "./About";
 import Contact from "./Contact";
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      <Stats />
-      <About />
-      <Skills />
-      <Experience />
+      <Ticker />
       <Projects />
-      <Hobbies />
+      <Experience />
+      <About />
       <Contact />
     </main>
   );

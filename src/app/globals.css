@@ -2,31 +2,511 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Design tokens. Un seul jeu de classes (bg-paper, text-ink, text-accent…)
+ * qui bascule entre les deux modes :
+ *  - sombre (défaut) : noir profond, jaune acide, glitch cyan / rouge ;
+ *  - clair : l'écran jaune "système", désaturé pour ne pas éblouir,
+ *    encre noire, accent rouge.
+ */
+:root {
+  --paper: #ece4a2;
+  --surface: #e2d98f;
+  --ink: #0b0b0c;
+  --muted: #59532a;
+  --line: #cbc07a;
+  --accent: #e8002f;
+  --accent-ink: #ffffff;
+  --cyan: #00808c;
+  --red: #e8002f;
+  --hazard-a: var(--accent);
+  --hazard-b: var(--paper);
+}
+
+.dark {
+  --paper: #07080a;
+  --surface: #0f1215;
+  --ink: #e6eef0;
+  --muted: #6b7a7f;
+  --line: #1c2327;
+  --accent: #f9e900;
+  --accent-ink: #07080a;
+  --cyan: #00e5ff;
+  --red: #ff2a4d;
+  --hazard-a: var(--accent);
+  --hazard-b: var(--paper);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-cyan: var(--cyan);
+  --color-red: var(--red);
+
+  --font-sans: var(--font-chakra), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-tektur), var(--font-chakra), sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-jp: var(--font-dela), sans-serif;
+}
+
 html {
-  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
 }
 
-/* Custom scrollbar */
+/* Titres : Tektur, police variable anguleuse (axes wght / wdth) */
+.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 100%;
+  letter-spacing: -0.02em;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Katakana décoratifs */
+.jp {
+  font-family: var(--font-jp);
+  letter-spacing: 0;
+}
+
+/* Contour seul, pour les grands textes fantômes */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+}
+
+/* ── Formes ─────────────────────────────────────────────────────────────── */
+/* Coins coupés en biseau (haut-droit et bas-gauche), signature de l'interface */
+.chamfer {
+  --cut: 14px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+.chamfer-sm {
+  --cut: 8px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+
+/* Cadre HUD : quatre équerres dans les coins */
+.hud {
+  --hud: var(--accent);
+  --hud-len: 14px;
+  background:
+    linear-gradient(var(--hud), var(--hud)) top left / var(--hud-len) 2px
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) top left / 2px var(--hud-len)
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) top right / var(--hud-len) 2px
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) top right / 2px var(--hud-len)
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) bottom left / var(--hud-len) 2px
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) bottom left / 2px var(--hud-len)
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) bottom right / var(--hud-len) 2px
+      no-repeat,
+    linear-gradient(var(--hud), var(--hud)) bottom right / 2px var(--hud-len)
+      no-repeat;
+}
+
+/* Bande de danger */
+.hazard {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--hazard-a) 0 14px,
+    var(--hazard-b) 14px 28px
+  );
+}
+
+/* Bouton principal : bloc accent biseauté */
+.btn-cyber {
+  --cut: 12px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.btn-cyber:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-ghost {
+  --cut: 12px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+  box-shadow: inset 0 0 0 1px var(--ink);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ── Glitch (cf. Glitch.tsx) ────────────────────────────────────────────── */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.glitch-layer.a {
+  color: var(--cyan);
+  transform: translate(-0.04em, 0);
+}
+.glitch-layer.b {
+  color: var(--red);
+  transform: translate(0.04em, 0);
+}
+.glitch-auto .glitch-layer.a {
+  animation: glitch-a 4.5s steps(1) infinite;
+}
+.glitch-auto .glitch-layer.b {
+  animation: glitch-b 4.5s steps(1) infinite;
+}
+.group:hover .glitch .glitch-layer.a,
+.glitch:hover .glitch-layer.a {
+  animation: glitch-a 0.6s steps(1) infinite;
+}
+.group:hover .glitch .glitch-layer.b,
+.glitch:hover .glitch-layer.b {
+  animation: glitch-b 0.6s steps(1) infinite;
+}
+
+@keyframes glitch-a {
+  0%,
+  88%,
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  89% {
+    opacity: 1;
+    clip-path: inset(10% 0 62% 0);
+    transform: translate(-0.06em, 0);
+  }
+  91% {
+    opacity: 1;
+    clip-path: inset(55% 0 20% 0);
+    transform: translate(0.05em, 0);
+  }
+  93% {
+    opacity: 1;
+    clip-path: inset(30% 0 45% 0);
+    transform: translate(-0.03em, 0);
+  }
+  95% {
+    opacity: 1;
+    clip-path: inset(78% 0 4% 0);
+    transform: translate(0.07em, 0);
+  }
+}
+@keyframes glitch-b {
+  0%,
+  88%,
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  89% {
+    opacity: 1;
+    clip-path: inset(60% 0 15% 0);
+    transform: translate(0.06em, 0);
+  }
+  91% {
+    opacity: 1;
+    clip-path: inset(5% 0 75% 0);
+    transform: translate(-0.05em, 0);
+  }
+  93% {
+    opacity: 1;
+    clip-path: inset(40% 0 35% 0);
+    transform: translate(0.04em, 0);
+  }
+  95% {
+    opacity: 1;
+    clip-path: inset(15% 0 70% 0);
+    transform: translate(-0.07em, 0);
+  }
+}
+
+/* Neige TV pour les écrans "no signal" */
+.tv-static {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27160%27 height=%27160%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%271.1%27 numOctaves=%272%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27/%3E%3C/svg%3E");
+  animation: tv-static 0.4s steps(4) infinite;
+}
+@keyframes tv-static {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-7%, 4%);
+  }
+  50% {
+    transform: translate(5%, -6%);
+  }
+  75% {
+    transform: translate(-3%, -2%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Rubalise "scène de crime" qui défile (cf. SealedCard) */
+.tape-track {
+  display: flex;
+  width: max-content;
+  animation: tape 22s linear infinite;
+}
+.tape-track.reverse {
+  animation-direction: reverse;
+}
+@keyframes tape {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Plot de preuve numéroté */
+.evidence-tent {
+  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+}
+
+/* Passage caviardé */
+.redacted {
+  background: color-mix(in oklab, var(--muted) 70%, var(--paper));
+  color: transparent;
+  user-select: none;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Curseur de terminal */
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.15em;
+  vertical-align: -0.12em;
+  background: var(--accent);
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Soulignement animé pour les liens textuels */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--paper);
 }
 ::-webkit-scrollbar-thumb {
-  background: #7c3aed;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #d946ef;
+  background: var(--accent);
 }
 
-/* Selection color */
-::selection {
-  background: #7c3aed;
-  color: #ffffff;
+/* ── Intro : masquée avant le premier rendu quand elle ne doit pas jouer ── */
+[data-intro="skip"] [data-preloader] {
+  display: none;
+}
+
+/* ── Texte qui roule au survol (cf. RollText) ───────────────────────────── */
+.roll-text {
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1.15;
+}
+.roll-char {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1) calc(var(--i) * 14ms);
+}
+.roll-char::after {
+  content: attr(data-char);
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+.roll-accent .roll-char::after {
+  color: var(--accent);
+}
+.group:hover .roll-char,
+.group:focus-visible .roll-char {
+  transform: translateY(-100%);
+}
+
+/* ── Écran CRT : lignes de balayage + vignette ──────────────────────────── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.16) 0 1px,
+      transparent 1px 3px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+  mix-blend-mode: multiply;
+}
+:root:not(.dark) body::after {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.07) 0 1px,
+      transparent 1px 3px
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 60%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+}
+
+/* Élément ciblé depuis le squelette 3D */
+.xray-flash {
+  animation: xray-flash 2.4s ease-out;
+}
+@keyframes xray-flash {
+  0%,
+  40% {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+  }
+  100% {
+    outline: 2px solid transparent;
+    outline-offset: 14px;
+  }
+}
+
+@keyframes lens-in {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes curtain-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roll-char {
+    transition: none;
+  }
+  .group:hover .roll-char {
+    transform: none;
+  }
+  .glitch-layer {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  .caret::after,
+  .tv-static,
+  .tape-track {
+    animation: none;
+  }
 }

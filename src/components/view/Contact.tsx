@@ -1,39 +1,34 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowUpRight, CheckCircle, AlertCircle } from "lucide-react";
 import { FormEvent, useState } from "react";
 import emailjs from "@emailjs/browser";
-import AnimatedSection from "@/components/ui/AnimatedSection";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { useLanguage } from "@/lib/LanguageContext";
+import { GithubIcon, LinkedinIcon, SOCIALS } from "@/components/ui/icons";
+import RollText from "@/components/motion/RollText";
+import Magnetic from "@/components/motion/Magnetic";
+import Glitch from "@/components/motion/Glitch";
+import { EASE } from "@/lib/motion";
+
+const inputClass =
+  "w-full bg-transparent border-0 border-b border-dashed border-line py-2.5 font-mono text-base text-ink placeholder:text-muted/50 focus:outline-none focus:border-accent focus:border-solid transition-colors";
+
+function Prompt({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label htmlFor={id} className="label text-accent">
+        &gt; {label}
+      </label>
+      {children}
+    </div>
+  );
+}
 
 export default function Contact() {
   const { t } = useLanguage();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-
-  const contactCards = [
-    {
-      icon: Mail,
-      label: t.contact.email_label,
-      value: t.contact.info_email,
-      href: `mailto:${t.contact.info_email}`,
-      color: "from-violet-500 to-purple-600",
-    },
-    {
-      icon: Phone,
-      label: t.contact.phone_label,
-      value: t.contact.info_phone,
-      href: `tel:+33${t.contact.info_phone.replace(/\s/g, "").slice(1)}`,
-      color: "from-fuchsia-500 to-pink-600",
-    },
-    {
-      icon: MapPin,
-      label: t.contact.location_label,
-      value: t.contact.info_location,
-      href: null,
-      color: "from-cyan-500 to-blue-600",
-    },
-  ];
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,163 +52,132 @@ export default function Contact() {
     }
   };
 
-  return (
-    <section
-      id="contact"
-      className="py-24 bg-white dark:bg-slate-900"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <AnimatedSection className="text-center mb-16">
-          <p className="text-sm font-semibold tracking-widest text-violet-600 dark:text-violet-400 uppercase mb-3">
-            {t.contact.subtitle}
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4">
-            {t.contact.title}
-          </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-violet-600 to-fuchsia-500 mx-auto rounded-full" />
-        </AnimatedSection>
+  const details = [
+    { label: t.contact.phone_label, value: t.contact.info_phone, href: `tel:${t.contact.info_phone.replace(/\s/g, "")}` },
+    { label: t.contact.location_label, value: t.contact.info_location, href: null },
+  ];
 
-        {/* Contact info cards */}
-        <div className="grid md:grid-cols-3 gap-5 mb-12">
-          {contactCards.map(({ icon: Icon, label, value, href, color }, i) => (
-            <AnimatedSection key={label} delay={i * 0.1}>
-              <motion.div
-                whileHover={{ y: -4 }}
-                className="flex flex-col items-center text-center p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-violet-200 dark:hover:border-violet-700/50 hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300"
-              >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-3`}>
-                  <Icon className="w-6 h-6 text-white" />
-                </div>
-                <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">
-                  {label}
-                </p>
+  return (
+    <section id="contact" className="px-5 md:px-10 max-w-[1400px] mx-auto pt-24 md:pt-40 pb-24">
+      <SectionHeader index="04" title={t.contact.title} jp="通信" lead={t.contact.lead} />
+
+      {/* Canal prioritaire : l'email */}
+      <motion.a
+        href={SOCIALS.email}
+        className="group relative block chamfer bg-accent text-accent-ink p-5 md:p-8 overflow-hidden"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.9, ease: EASE }}
+      >
+        <span className="label flex items-center gap-2">
+          <span className="w-2 h-2 bg-accent-ink animate-[blink_1s_steps(1)_infinite]" />
+          {t.cyber.channel} {"//"} {t.contact.email_label}
+        </span>
+        <span className="mt-4 flex items-end justify-between gap-6">
+          {/* Tablette et desktop : taille calculée sur la place restante (marges + flèche) pour tenir sur une ligne */}
+          <span className="display text-[clamp(1.4rem,5vw,5rem)] md:text-[min(5rem,calc((100vw-17rem)/13.5))] leading-none break-all md:break-normal md:whitespace-nowrap">
+            <Glitch text={t.contact.info_email} />
+          </span>
+          <Magnetic strength={0.5}>
+            <span className="flex items-center justify-center w-14 h-14 md:w-24 md:h-24 bg-accent-ink text-accent chamfer-sm">
+              <ArrowUpRight className="w-6 h-6 md:w-10 md:h-10 transition-transform duration-500 group-hover:rotate-45" />
+            </span>
+          </Magnetic>
+        </span>
+      </motion.a>
+
+      <div className="grid grid-cols-12 gap-x-6 gap-y-8 mt-6">
+        <dl className="col-span-12 md:col-span-4 chamfer bg-surface p-5 md:p-6 space-y-5 self-start">
+          {details.map(({ label, value, href }) => (
+            <div key={label}>
+              <dt className="label text-muted">{label}</dt>
+              <dd className="mt-1 font-mono">
                 {href ? (
-                  <a
-                    href={href}
-                    className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                  >
+                  <a href={href} className="link-underline hover:text-accent">
                     {value}
                   </a>
                 ) : (
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                    {value}
-                  </span>
+                  value
                 )}
-              </motion.div>
-            </AnimatedSection>
+              </dd>
+            </div>
           ))}
-        </div>
+          <div className="flex gap-4 pt-1">
+            <a href={SOCIALS.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors">
+              <GithubIcon className="w-5 h-5" />
+            </a>
+            <a href={SOCIALS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors">
+              <LinkedinIcon className="w-5 h-5" />
+            </a>
+          </div>
+        </dl>
 
-        {/* Form */}
-        <AnimatedSection>
-          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 md:p-10 border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-none">
+        {/* Terminal */}
+        <div className="col-span-12 md:col-span-8 chamfer bg-surface overflow-hidden">
+          <div className="flex items-center gap-2 px-4 py-2.5 bg-accent text-accent-ink label">
+            <span className="w-2.5 h-2.5 bg-red" />
+            <span className="w-2.5 h-2.5 bg-accent-ink" />
+            <span className="w-2.5 h-2.5 bg-cyan" />
+            <span className="ml-3 normal-case tracking-normal opacity-70">evan@netrunner:~/contact — {t.cyber.open_channel}</span>
+          </div>
+
+          <div className="p-5 md:p-7">
             {status === "success" ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center py-12 text-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-start gap-4 py-8 font-mono"
               >
-                <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
-                <p className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  {t.contact.success}
-                </p>
-                <button
-                  onClick={() => setStatus("idle")}
-                  className="mt-6 px-6 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-violet-400 hover:text-violet-600 transition-all"
-                >
-                  ← Nouveau message
+                <CheckCircle className="w-10 h-10 text-accent" />
+                <p className="text-xl">&gt; {t.contact.success}</p>
+                <button onClick={() => setStatus("idle")} className="btn-ghost px-4 py-2 text-sm">
+                  {t.contact.new_message}
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="from_name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                      {t.contact.name}
-                    </label>
-                    <input
-                      type="text"
-                      id="from_name"
-                      name="from_name"
-                      required
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
-                      placeholder="Evan Quinchon"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="from_email" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                      {t.contact.email}
-                    </label>
-                    <input
-                      type="email"
-                      id="from_email"
-                      name="from_email"
-                      required
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
-                      placeholder="vous@email.com"
-                    />
-                  </div>
+              <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-x-8 gap-y-6">
+                <Prompt id="from_name" label={t.contact.name}>
+                  <input type="text" id="from_name" name="from_name" required autoComplete="name" placeholder="_" className={inputClass} />
+                </Prompt>
+                <Prompt id="from_email" label={t.contact.email}>
+                  <input type="email" id="from_email" name="from_email" required autoComplete="email" placeholder="_" className={inputClass} />
+                </Prompt>
+                <div className="md:col-span-2">
+                  <Prompt id="subject" label={t.contact.subject}>
+                    <input type="text" id="subject" name="subject" required placeholder="_" className={inputClass} />
+                  </Prompt>
                 </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                    {t.contact.subject}
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
-                    placeholder="Opportunité, collaboration..."
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                    {t.contact.message}
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    required
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all resize-none"
-                    placeholder="Bonjour Evan, je souhaite..."
-                  />
+                <div className="md:col-span-2">
+                  <Prompt id="message" label={t.contact.message}>
+                    <textarea id="message" name="message" rows={5} required placeholder="_" className={`${inputClass} resize-none`} />
+                  </Prompt>
                 </div>
 
                 {status === "error" && (
-                  <div className="flex items-center gap-2 text-red-500 text-sm">
+                  <p className="md:col-span-2 flex items-center gap-2 text-red font-mono text-sm" role="alert">
                     <AlertCircle className="w-4 h-4" />
-                    {t.contact.error}
-                  </div>
+                    ERR // {t.contact.error}
+                  </p>
                 )}
 
-                <motion.button
-                  type="submit"
-                  disabled={status === "sending"}
-                  whileHover={{ scale: status === "sending" ? 1 : 1.01 }}
-                  whileTap={{ scale: status === "sending" ? 1 : 0.98 }}
-                  className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-violet-500/30 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300"
-                >
-                  {status === "sending" ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      {t.contact.sending}
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      {t.contact.send}
-                    </>
-                  )}
-                </motion.button>
+                <div className="md:col-span-2 flex items-center justify-between gap-4">
+                  <span className="label text-muted caret">{status === "sending" ? t.contact.sending : "ready"}</span>
+                  <Magnetic>
+                    <button
+                      type="submit"
+                      disabled={status === "sending"}
+                      className="group btn-cyber inline-flex items-center gap-3 px-6 py-3.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-300"
+                    >
+                      <RollText text={status === "sending" ? t.contact.sending : t.contact.send} />
+                      <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
+                    </button>
+                  </Magnetic>
+                </div>
               </form>
             )}
           </div>
-        </AnimatedSection>
+        </div>
       </div>
     </section>
   );

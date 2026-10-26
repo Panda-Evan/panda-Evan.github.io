@@ -35,7 +35,7 @@ export default function SecretFragment({
         const newCount = foundFragments.length + 1;
         console.log(
           `%c[EVAN] Fragment [${fragmentId}] déchiffré - ${newCount}/4 collectés`,
-          "color:#8b5cf6;font-family:monospace;font-weight:bold;",
+          "color:#e8400c;font-family:monospace;font-weight:bold;",
         );
         if (newCount === FRAGMENT_ORDER.length) {
           console.log(
@@ -59,15 +59,15 @@ export default function SecretFragment({
 
   return (
     <Tag
-      className={`relative group cursor-pointer select-none ${className}`}
+      className={`relative group select-none ${className}`}
       onClick={handleClick}
     >
       {children}
       <span
         className={`absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full pointer-events-none transition-all duration-500 ${
           isFound
-            ? "bg-violet-500 opacity-70 scale-100"
-            : "bg-violet-400 opacity-0 group-hover:opacity-20 scale-75 group-hover:scale-100"
+            ? "bg-accent opacity-80 scale-100"
+            : "bg-accent opacity-0 group-hover:opacity-30 scale-75 group-hover:scale-100"
         }`}
       />
     </Tag>

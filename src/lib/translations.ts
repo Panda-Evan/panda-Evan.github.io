@@ -3,77 +3,134 @@ export type Lang = "fr" | "en";
 export type Translations = {
   nav: {
     home: string;
-    about: string;
-    skills: string;
-    experience: string;
     projects: string;
+    experience: string;
+    about: string;
     contact: string;
   };
   hero: {
-    greeting: string;
-    roles: string[];
-    subtitle: string;
+    role: string;
+    location: string;
+    available: string;
+    local_time: string;
+    statement: string;
     cta_projects: string;
     cta_contact: string;
     download_cv: string;
-    scroll: string;
-    available: string;
+    facts: {
+      years: string;
+      cadence: string;
+      projects: string;
+      techs: string;
+    };
   };
-  stats: {
-    title: string;
-    subtitle: string;
-    items: { value: string; label: string }[];
+  cyber: {
+    ticker: string[];
+    boot: string[];
+    online: string;
+    channel: string;
+    open_channel: string;
+    dossier: string;
+    clearance: string;
+    log: string;
+    contracts: string;
+  };
+  anatomy: {
+    layers: { grid: string; box: string; components: string; content: string };
+    cta: string;
+    cta_long: string;
+    fig: string;
+    caption: (elements: number) => string;
+  };
+  xray: {
+    lens: string;
+    skeleton: string;
+    active: string;
+    quit: string;
+    source: string;
+    depth: string;
+    anatomy_kicker: string;
+    anatomy_title: string;
+    anatomy_desc: string;
+    elements: string;
+    max_depth: string;
+    height: string;
+    sections: string;
+    hint: string;
+    close: string;
   };
   hobbies: {
     title: string;
-    subtitle: string;
-    items: { icon: string; title: string; desc: string; tags: string[] }[];
+    items: { title: string; desc: string; tags: string[] }[];
   };
   about: {
     title: string;
-    subtitle: string;
+    lead: string;
     bio1: string;
     bio2: string;
     bio3: string;
     values_title: string;
     values: string[];
-    highlights: {
-      quality: { title: string; desc: string };
-      design: { title: string; desc: string };
-      perf: { title: string; desc: string };
-    };
-  };
-  skills: {
-    title: string;
-    subtitle: string;
-    languages: string;
-    frameworks: string;
-    tools: string;
-    soft: string;
   };
   experience: {
     title: string;
-    subtitle: string;
+    lead: string;
     work: string;
     education: string;
-    project: string;
     present: string;
   };
   projects: {
     title: string;
-    subtitle: string;
-    all: string;
+    lead: string;
+    filter_label: string;
+    filter_hint: string;
+    groups: { front: string; lang: string; back: string; other: string };
+    reset: string;
+    count: (n: number) => string;
+    matching: string;
     cat_perso: string;
     cat_ecole: string;
-    viewGithub: string;
-    viewLive: string;
-    viewDetails: string;
     featured: string;
     noProjects: string;
+    view: string;
+    beta: string;
+    sealed: {
+      title: string;
+      hint: string;
+      tape: string[];
+      stamp: string;
+      evidence: string;
+      redacted: string;
+      locked: string;
+      eta: string;
+    };
+  };
+  project: {
+    back: string;
+    role: string;
+    period: string;
+    type: string;
+    links: string;
+    about: string;
+    highlights: string;
+    stack: string;
+    stack_hint: string;
+    gallery: string;
+    no_visuals: string;
+    next: string;
+    viewGithub: string;
+    viewLive: string;
+    no_links: string;
+    beta_title: string;
+    beta_text: string;
+    close: string;
+    previous_image: string;
+    next_image: string;
+    not_found: string;
   };
   contact: {
     title: string;
-    subtitle: string;
+    lead: string;
     name: string;
     email: string;
     subject: string;
@@ -82,19 +139,19 @@ export type Translations = {
     sending: string;
     success: string;
     error: string;
+    new_message: string;
     info_email: string;
     info_phone: string;
     info_location: string;
     email_label: string;
     phone_label: string;
     location_label: string;
+    or_form: string;
   };
   footer: {
     rights: string;
-    made_with: string;
-    nav_title: string;
-    follow_title: string;
-    desc: string;
+    built_with: string;
+    shortcuts: string;
   };
 };
 
@@ -102,281 +159,407 @@ export const translations: Record<Lang, Translations> = {
   fr: {
     nav: {
       home: "Accueil",
-      about: "À propos",
-      skills: "Compétences",
-      experience: "Parcours",
       projects: "Projets",
+      experience: "Parcours",
+      about: "À propos",
       contact: "Contact",
     },
     hero: {
-      greeting: "Bonjour, je suis",
-      roles: [
-        "Développeur Front-End",
-        "React / Next.js / TypeScript",
-        "Passionné UI & Performance",
-      ],
-      subtitle:
-        "Développeur front-end React / Next.js / TypeScript, 3 ans d'expérience en alternance sur des projets multi-marchés. Je conçois des interfaces simples, performantes et maintenables.",
-      cta_projects: "Voir mes projets",
+      role: "Développeur front-end",
+      location: "Paris, FR",
+      available: "Disponible immédiatement",
+      local_time: "Heure locale",
+      statement:
+        "Je construis des interfaces précises, rapides et maintenables en React, Next.js et TypeScript. Diplômé Bac+5 de L'ETNA, avec trois ans d'expérience chez Cliq Digital à livrer des sites pour l'Europe et les États-Unis, au rythme de deux toutes les deux semaines.",
+      cta_projects: "Voir les projets",
       cta_contact: "Me contacter",
-      download_cv: "Télécharger le CV",
-      scroll: "Défiler vers le bas",
-      available: "Disponible · Oct. 2026",
+      download_cv: "CV (PDF)",
+      facts: {
+        years: "ans d'expérience",
+        cadence: "sites livrés / 2 semaines",
+        projects: "projets documentés",
+        techs: "technologies utilisées",
+      },
     },
-    stats: {
-      title: "En chiffres",
-      subtitle: "Mon parcours résumé",
-      items: [
-        { value: "3", label: "ans d'alternance" },
-        { value: "6", label: "projets réalisés" },
-        { value: "15+", label: "technologies" },
-        { value: "B1", label: "niveau anglais" },
+    cyber: {
+      ticker: [
+        "Disponible immédiatement",
+        "Netrunner front-end",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Design systems",
+        "Pixel-perfect",
+        "Paris 75",
       ],
+      boot: [
+        "init kernel.portfolio ............ ok",
+        "mount /dev/react@19 .............. ok",
+        "load chrome.typography(tektur) .... ok",
+        "calibrate scanner.xray ........... ok",
+        "handshake evan.quinchon .......... ok",
+      ],
+      online: "En ligne",
+      channel: "Canal ouvert",
+      open_channel: "Ouvrir un canal",
+      dossier: "Dossier",
+      clearance: "Habilitation",
+      log: "Journal",
+      contracts: "Contrats",
+    },
+    anatomy: {
+      layers: {
+        grid: "L0 · grille 12 col / 24 px",
+        box: "L1 · box model",
+        components: "L2 · composants",
+        content: "L3 · contenu",
+      },
+      cta: "Voir le squelette",
+      cta_long: "Explorer le squelette en 3D",
+      fig: "Fig. 00 — Anatomie de cette page",
+      caption: (n) =>
+        `La page que tu viens de voir, démontée en 4 calques. Chaque cadre est mesuré en direct sur le vrai DOM — ${n.toLocaleString("fr-FR")} éléments en ce moment, zéro template.`,
+    },
+    xray: {
+      lens: "Scanner",
+      skeleton: "Squelette 3D",
+      active: "Scanner actif",
+      quit: "quitter",
+      source: "Source réelle",
+      depth: "profondeur",
+      anatomy_kicker: "// Jack-in · Le Net",
+      anatomy_title: "Plongée dans le Net",
+      anatomy_desc:
+        "Chaque dalle est un vrai élément HTML de cette page, posé à la hauteur de sa profondeur dans l'arbre. Plus c'est lumineux, plus c'est imbriqué — comme une radio.",
+      elements: "éléments",
+      max_depth: "profondeur max",
+      height: "hauteur du document",
+      sections: "sections",
+      hint: "Glisser pour tourner · molette pour zoomer · clic sur un élément pour y aller",
+      close: "Revenir au site",
     },
     hobbies: {
-      title: "Passions",
-      subtitle: "Au-delà du code",
+      title: "En dehors du code",
       items: [
         {
-          icon: "",
           title: "Jeux vidéo",
-          desc: "Passionné de jeux compétitifs et de speedrun. J'aime autant optimiser une stratégie qu'optimiser du code.",
+          desc: "Compétition et speedrun. Optimiser une route au frame près, c'est le même plaisir qu'optimiser un rendu.",
           tags: ["Compétition", "Speedrun"],
         },
         {
-          icon: "",
           title: "Cosplay",
-          desc: "Je conçois et fabrique des props en impression 3D, une façon de mêler créativité, design et fabrication numérique.",
-          tags: ["Impression 3D", "Fabrication", "Design"],
+          desc: "Je modélise et imprime mes props en 3D : de la conception à la finition, rien n'est acheté tout fait.",
+          tags: ["Impression 3D", "Fabrication"],
         },
         {
-          icon: "",
-          title: "Développement",
-          desc: "Des projets perso pour explorer les nouvelles technos UI, tester des concepts et rester en veille active sur l'écosystème front.",
-          tags: ["Projets perso", "Veille UI", "Open source"],
+          title: "Projets perso",
+          desc: "Des side projects pour tester les nouvelles API du navigateur et garder la main sur l'écosystème front.",
+          tags: ["Veille UI", "Expérimentations"],
         },
       ],
     },
     about: {
-      title: "À propos de moi",
-      subtitle: "Qui suis-je ?",
-      bio1: "Je suis Evan Quinchon, développeur front-end React / Next.js / TypeScript en alternance chez Cliq Digital tout en finalisant mon master Architecte de Systèmes d'Information à L'ETNA. 3 ans d'expérience sur des projets multi-marchés (Europe & États-Unis).",
-      bio2: "Chez Cliq Digital, j'ai livré des sites vitrines en Next.js SSR à un rythme de ~2 sites / 2 semaines, conçu des composants réutilisables et participé au design system. J'ai aussi développé Cliq Analytics, un dashboard interne KPI avec exports PDF et Excel.",
-      bio3: "En dehors du code, je pratique le cosplay avec de l'impression 3D, je joue en compétition et je speedrun, et je monte des projets perso pour tester les dernières technos UI.",
-      values_title: "Mes valeurs",
+      title: "À propos",
+      lead: "Je ne lâche pas un écran tant qu'il n'est pas juste.",
+      bio1: "Je suis Evan Quinchon, développeur front-end React / Next.js / TypeScript. Je viens d'obtenir mon titre d'Architecte de Systèmes d'Information à L'ETNA (Bac+5, certification RNCP de niveau 7), après trois ans d'alternance chez Cliq Digital.",
+      bio2: "Chez Cliq Digital, j'ai livré des sites vitrines en Next.js SSR à un rythme de ~2 sites toutes les 2 semaines, conçu des composants réutilisables et participé au design system. J'ai aussi développé Cliq Analytics, un dashboard interne KPI avec exports PDF et Excel.",
+      bio3: "Ce portfolio est codé à la main, sans template : chaque espacement, chaque transition et chaque état de survol a été pensé et ajusté.",
+      values_title: "Ma façon de travailler",
       values: [
-        "Interfaces simples, performantes et maintenables",
-        "Qualité et rigueur dans chaque livraison",
-        "Collaboration et communication efficace",
-        "Apprentissage continu et veille technologique",
+        "Pixel-perfect sans sacrifier la maintenabilité",
+        "Accessibilité et performance dès le premier commit",
+        "Composants réutilisables, design system d'abord",
+        "Communication claire avec le design et le back",
       ],
-      highlights: {
-        quality: {
-          title: "Code de qualité",
-          desc: "Écriture de code propre, maintenable et bien structuré",
-        },
-        design: {
-          title: "Design moderne",
-          desc: "Création d'interfaces utilisateur intuitives et élégantes",
-        },
-        perf: {
-          title: "Performance",
-          desc: "Optimisation pour des expériences rapides et fluides",
-        },
-      },
-    },
-    skills: {
-      title: "Compétences",
-      subtitle: "Mes outils & technologies",
-      languages: "Langages",
-      frameworks: "Frameworks",
-      tools: "Outils",
-      soft: "Soft Skills",
     },
     experience: {
       title: "Parcours",
-      subtitle: "Mon expérience & ma formation",
+      lead: "Trois ans à mener de front l'entreprise et l'école, jusqu'au diplôme.",
       work: "Expérience",
       education: "Formation",
-      project: "Projet",
       present: "Aujourd'hui",
     },
     projects: {
       title: "Projets",
-      subtitle: "Ce que j'ai réalisé",
-      all: "Tous",
-      cat_perso: "Personnel",
+      lead: "Écoles, alternance, projets perso. Filtre par compétence pour voir où je l'ai utilisée.",
+      filter_label: "Filtrer par compétence",
+      filter_hint: "Plusieurs choix possibles",
+      groups: {
+        front: "Front-end",
+        lang: "Langages",
+        back: "Back-end & data",
+        other: "Mobile, jeu & desktop",
+      },
+      reset: "Tout afficher",
+      count: (n) => `${n} projet${n > 1 ? "s" : ""}`,
+      matching: "utilisant",
+      cat_perso: "Perso",
       cat_ecole: "École",
-      viewGithub: "GitHub",
+      featured: "À la une",
+      noProjects: "Aucun projet ne combine toutes ces compétences.",
+      view: "Voir le projet",
+      beta: "V1 · En test",
+      sealed: {
+        title: "Dossiers scellés",
+        hint: "Enquête en cours, déclassification prochaine",
+        tape: ["Bientôt", "Ne pas franchir", "Scène de crime", "Accès restreint"],
+        stamp: "Bientôt",
+        evidence: "Pièce à conviction",
+        redacted: "passage caviardé",
+        locked: "Dossier scellé",
+        eta: "Ouverture",
+      },
+    },
+    project: {
+      back: "Tous les projets",
+      role: "Rôle",
+      period: "Période",
+      type: "Type",
+      links: "Liens",
+      about: "Le projet",
+      highlights: "Points clés",
+      stack: "Compétences mobilisées",
+      stack_hint: "Clique sur une compétence pour voir les autres projets qui l'utilisent.",
+      gallery: "Captures",
+      no_visuals: "Visuels à venir",
+      next: "Projet suivant",
+      viewGithub: "Code source",
       viewLive: "Voir le site",
-      viewDetails: "Voir détails",
-      featured: "Mis en avant",
-      noProjects: "Aucun projet dans cette catégorie",
+      no_links: "Code privé",
+      beta_title: "Version 1 · en phase de test",
+      beta_text: "Ce projet est jouable de bout en bout, mais il est encore en test : équilibrage, bugs et contenu évoluent.",
+      close: "Fermer",
+      previous_image: "Image précédente",
+      next_image: "Image suivante",
+      not_found: "Projet introuvable",
     },
     contact: {
       title: "Contact",
-      subtitle: "Parlons de votre projet",
+      lead: "Un poste, une mission, une question ? Écris-moi.",
       name: "Nom complet",
       email: "Adresse email",
       subject: "Sujet",
       message: "Message",
       send: "Envoyer le message",
       sending: "Envoi en cours...",
-      success: "Message envoyé avec succès ! Je vous répondrai très vite.",
-      error: "Une erreur est survenue. Veuillez réessayer.",
+      success: "Message envoyé. Je te réponds très vite.",
+      error: "Une erreur est survenue. Réessaie ou écris-moi directement par email.",
+      new_message: "Nouveau message",
       info_email: "evan.quinchon@outlook.fr",
       info_phone: "+33 7 86 64 28 94",
       info_location: "Paris, France",
       email_label: "Email",
       phone_label: "Téléphone",
       location_label: "Localisation",
+      or_form: "Ou via le formulaire",
     },
     footer: {
       rights: "Tous droits réservés.",
-      made_with: "Créé avec passion par",
-      nav_title: "Navigation",
-      follow_title: "Me suivre",
-      desc: "Développeur front-end passionné par la création d'interfaces simples, performantes et maintenables.",
+      built_with: "Conçu et codé à la main avec Next.js, Tailwind CSS et Framer Motion.",
+      shortcuts: "Raccourcis clavier",
     },
   },
   en: {
     nav: {
       home: "Home",
-      about: "About",
-      skills: "Skills",
-      experience: "Journey",
       projects: "Projects",
+      experience: "Journey",
+      about: "About",
       contact: "Contact",
     },
     hero: {
-      greeting: "Hi, I'm",
-      roles: [
-        "Front-End Developer",
-        "React / Next.js / TypeScript",
-        "UI & Performance Enthusiast",
-      ],
-      subtitle:
-        "Front-end developer React / Next.js / TypeScript with 3 years of work-study experience on multi-market projects. I build simple, performant and maintainable interfaces.",
-      cta_projects: "See my projects",
-      cta_contact: "Contact me",
-      download_cv: "Download CV",
-      scroll: "Scroll down",
-      available: "Available · Oct. 2026",
+      role: "Front-end developer",
+      location: "Paris, FR",
+      available: "Available now",
+      local_time: "Local time",
+      statement:
+        "I build precise, fast and maintainable interfaces with React, Next.js and TypeScript. Master's-level graduate from L'ETNA, with three years at Cliq Digital shipping sites for Europe and the US, at a pace of two every two weeks.",
+      cta_projects: "See the projects",
+      cta_contact: "Get in touch",
+      download_cv: "Resume (PDF)",
+      facts: {
+        years: "years of experience",
+        cadence: "sites shipped / 2 weeks",
+        projects: "documented projects",
+        techs: "technologies used",
+      },
     },
-    stats: {
-      title: "By the numbers",
-      subtitle: "My journey at a glance",
-      items: [
-        { value: "3", label: "years work-study" },
-        { value: "6", label: "projects built" },
-        { value: "15+", label: "technologies" },
-        { value: "B1", label: "English level" },
+    cyber: {
+      ticker: [
+        "Available now",
+        "Front-end netrunner",
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Design systems",
+        "Pixel-perfect",
+        "Paris 75",
       ],
+      boot: [
+        "init kernel.portfolio ............ ok",
+        "mount /dev/react@19 .............. ok",
+        "load chrome.typography(tektur) .... ok",
+        "calibrate scanner.xray ........... ok",
+        "handshake evan.quinchon .......... ok",
+      ],
+      online: "Online",
+      channel: "Channel open",
+      open_channel: "Open a channel",
+      dossier: "Dossier",
+      clearance: "Clearance",
+      log: "Log",
+      contracts: "Contracts",
+    },
+    anatomy: {
+      layers: {
+        grid: "L0 · 12 col grid / 24 px",
+        box: "L1 · box model",
+        components: "L2 · components",
+        content: "L3 · content",
+      },
+      cta: "See the skeleton",
+      cta_long: "Explore the 3D skeleton",
+      fig: "Fig. 00 — Anatomy of this page",
+      caption: (n) =>
+        `The page you just saw, taken apart into 4 layers. Every frame is measured live on the real DOM — ${n.toLocaleString("en-US")} elements right now, zero template.`,
+    },
+    xray: {
+      lens: "Scanner",
+      skeleton: "3D skeleton",
+      active: "Scanner on",
+      quit: "exit",
+      source: "Real source",
+      depth: "depth",
+      anatomy_kicker: "// Jack-in · The Net",
+      anatomy_title: "Jack into the Net",
+      anatomy_desc:
+        "Each slab is a real HTML element of this page, raised to its depth in the tree. The brighter it glows, the deeper it's nested — just like an X-ray.",
+      elements: "elements",
+      max_depth: "max depth",
+      height: "document height",
+      sections: "sections",
+      hint: "Drag to orbit · scroll to zoom · click an element to jump to it",
+      close: "Back to the site",
     },
     hobbies: {
-      title: "Passions",
-      subtitle: "Beyond the code",
+      title: "Beyond the code",
       items: [
         {
-          icon: "",
           title: "Gaming",
-          desc: "Passionate about competitive games and speedrunning. Optimising a run feels as satisfying as optimising code.",
+          desc: "Competitive play and speedrunning. Optimising a route frame by frame feels just like optimising a render.",
           tags: ["Competitive", "Speedrun"],
         },
         {
-          icon: "",
           title: "Cosplay",
-          desc: "I design and build props through 3D printing, a way to blend creativity, design and digital fabrication.",
-          tags: ["3D Printing", "Fabrication", "Design"],
+          desc: "I model and 3D-print my own props: from design to finish, nothing is bought ready-made.",
+          tags: ["3D Printing", "Fabrication"],
         },
         {
-          icon: "",
-          title: "Front-end Dev",
-          desc: "Personal projects to explore new UI technologies, test concepts and stay actively on top of the front-end ecosystem.",
-          tags: ["Side Projects", "UI Watch", "Open Source"],
+          title: "Side projects",
+          desc: "Side projects to try new browser APIs and stay hands-on with the front-end ecosystem.",
+          tags: ["UI Watch", "Experiments"],
         },
       ],
     },
     about: {
-      title: "About Me",
-      subtitle: "Who am I?",
-      bio1: "I'm Evan Quinchon, a front-end developer React / Next.js / TypeScript on a work-study contract at Cliq Digital while completing my Master's in Information Systems Architecture at L'ETNA. 3 years of experience on multi-market projects (Europe & USA).",
-      bio2: "At Cliq Digital, I delivered Next.js SSR showcase sites at ~2 sites / 2 weeks, designed reusable components and contributed to the design system. I also built Cliq Analytics, an internal KPI dashboard with PDF and Excel exports.",
-      bio3: "Outside of work, I do cosplay with 3D printing, play competitive games and speedrun, and build personal front-end projects to explore the latest UI technologies.",
-      values_title: "My values",
+      title: "About",
+      lead: "I don't let go of a screen until it's right.",
+      bio1: "I'm Evan Quinchon, a React / Next.js / TypeScript front-end developer. I've just earned my Information Systems Architect title from L'ETNA (Master's level, RNCP level 7 certification), after three years of work-study at Cliq Digital.",
+      bio2: "At Cliq Digital, I shipped Next.js SSR showcase sites at ~2 sites every 2 weeks, designed reusable components and contributed to the design system. I also built Cliq Analytics, an internal KPI dashboard with PDF and Excel exports.",
+      bio3: "This portfolio is hand-coded, no template: every spacing, transition and hover state has been thought through and tuned.",
+      values_title: "How I work",
       values: [
-        "Simple, performant and maintainable interfaces",
-        "Quality and rigour in every delivery",
-        "Effective collaboration and communication",
-        "Continuous learning and technology watch",
+        "Pixel-perfect without trading off maintainability",
+        "Accessibility and performance from the first commit",
+        "Reusable components, design system first",
+        "Clear communication with design and back-end",
       ],
-      highlights: {
-        quality: {
-          title: "Quality Code",
-          desc: "Writing clean, maintainable and well-structured code",
-        },
-        design: {
-          title: "Modern Design",
-          desc: "Creating intuitive and elegant user interfaces",
-        },
-        perf: {
-          title: "Performance",
-          desc: "Optimizing for fast and smooth experiences",
-        },
-      },
-    },
-    skills: {
-      title: "Skills",
-      subtitle: "My tools & technologies",
-      languages: "Languages",
-      frameworks: "Frameworks",
-      tools: "Tools",
-      soft: "Soft Skills",
     },
     experience: {
       title: "Journey",
-      subtitle: "My experience & education",
+      lead: "Three years juggling a company and a school, all the way to graduation.",
       work: "Experience",
       education: "Education",
-      project: "Project",
       present: "Present",
     },
     projects: {
       title: "Projects",
-      subtitle: "What I've built",
-      all: "All",
+      lead: "School, work-study and personal projects. Filter by skill to see where I used it.",
+      filter_label: "Filter by skill",
+      filter_hint: "Multiple choices allowed",
+      groups: {
+        front: "Front-end",
+        lang: "Languages",
+        back: "Back-end & data",
+        other: "Mobile, games & desktop",
+      },
+      reset: "Show all",
+      count: (n) => `${n} project${n > 1 ? "s" : ""}`,
+      matching: "using",
       cat_perso: "Personal",
       cat_ecole: "School",
-      viewGithub: "GitHub",
-      viewLive: "View site",
-      viewDetails: "View details",
       featured: "Featured",
-      noProjects: "No projects in this category",
+      noProjects: "No project combines all of these skills.",
+      view: "View project",
+      beta: "V1 · Testing",
+      sealed: {
+        title: "Sealed files",
+        hint: "Investigation ongoing, declassified soon",
+        tape: ["Coming soon", "Do not cross", "Crime scene", "Restricted area"],
+        stamp: "Soon",
+        evidence: "Evidence",
+        redacted: "redacted passage",
+        locked: "Sealed file",
+        eta: "Opening",
+      },
+    },
+    project: {
+      back: "All projects",
+      role: "Role",
+      period: "Period",
+      type: "Type",
+      links: "Links",
+      about: "The project",
+      highlights: "Key points",
+      stack: "Skills used",
+      stack_hint: "Click a skill to see the other projects using it.",
+      gallery: "Screenshots",
+      no_visuals: "Visuals coming soon",
+      next: "Next project",
+      viewGithub: "Source code",
+      viewLive: "Visit site",
+      no_links: "Private code",
+      beta_title: "Version 1 · in testing",
+      beta_text: "This project is playable from start to finish, but it is still being tested: balance, bugs and content are evolving.",
+      close: "Close",
+      previous_image: "Previous image",
+      next_image: "Next image",
+      not_found: "Project not found",
     },
     contact: {
       title: "Contact",
-      subtitle: "Let's talk about your project",
+      lead: "A role, a mission, a question? Drop me a line.",
       name: "Full name",
       email: "Email address",
       subject: "Subject",
       message: "Message",
       send: "Send message",
       sending: "Sending...",
-      success: "Message sent successfully! I'll get back to you soon.",
-      error: "An error occurred. Please try again.",
+      success: "Message sent. I'll get back to you soon.",
+      error: "Something went wrong. Try again or email me directly.",
+      new_message: "New message",
       info_email: "evan.quinchon@outlook.fr",
       info_phone: "+33 7 86 64 28 94",
       info_location: "Paris, France",
       email_label: "Email",
       phone_label: "Phone",
       location_label: "Location",
+      or_form: "Or use the form",
     },
     footer: {
       rights: "All rights reserved.",
-      made_with: "Made with passion by",
-      nav_title: "Navigation",
-      follow_title: "Follow me",
-      desc: "Front-end developer passionate about building simple, performant and maintainable interfaces.",
+      built_with: "Designed and hand-coded with Next.js, Tailwind CSS and Framer Motion.",
+      shortcuts: "Keyboard shortcuts",
     },
   },
 };

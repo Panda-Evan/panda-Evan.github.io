@@ -48,7 +48,7 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[500] flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/80 z-[500] flex items-center justify-center p-4"
       onClick={onClose}
     >
       <motion.div
@@ -56,15 +56,13 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", bounce: 0.45, duration: 0.7 }}
-        className="bg-slate-950 border border-violet-500/50 rounded-2xl p-8 max-w-md w-full relative overflow-hidden"
+        className="bg-[#07080a] text-[#e6eef0] border border-[#f9e900] p-8 max-w-md w-full relative overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="absolute inset-0 bg-violet-600/5 pointer-events-none" />
-        <div className="absolute -top-20 -right-20 w-40 h-40 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-600 hover:text-slate-400 transition-colors"
+          className="absolute top-4 right-4 text-[#6b7a7f] hover:text-[#e6eef0] transition-colors"
           aria-label="Fermer"
         >
           <X className="w-4 h-4" />
@@ -76,8 +74,8 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
           transition={{ delay: 0.3, type: "spring", bounce: 0.6 }}
           className="flex justify-center mb-5"
         >
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-500 flex items-center justify-center shadow-xl shadow-violet-500/30">
-            <Trophy className="w-10 h-10 text-white" />
+          <div className="w-20 h-20 bg-[#f9e900] flex items-center justify-center">
+            <Trophy className="w-10 h-10 text-[#07080a]" />
           </div>
         </motion.div>
 
@@ -87,16 +85,16 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
           transition={{ delay: 0.5 }}
           className="text-center mb-6"
         >
-          <p className="text-xs font-mono text-violet-400 tracking-widest uppercase mb-2">
+          <p className="text-xs font-mono text-[#f9e900] tracking-widest uppercase mb-2">
             Achievement Unlocked
           </p>
-          <h2 className="text-2xl font-black text-white mb-1">
+          <h2 className="text-2xl font-extrabold mb-1">
             Easter Egg Hunter
           </h2>
-          <p className="text-slate-500 text-sm">3 étapes complétées. Bravo.</p>
+          <p className="text-[#6b7a7f] text-sm">3 étapes complétées. Bravo.</p>
         </motion.div>
 
-        <div className="h-px bg-violet-500/20 mb-5" />
+        <div className="h-px bg-[#1c2327] mb-5" />
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -106,16 +104,16 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
         >
           <p className="text-green-400">&gt; Accès total accordé.</p>
           <p className="text-green-400/70">&gt; Message personnel :</p>
-          <div className="mt-3 pl-3 border-l border-violet-500/30 space-y-2">
-            <p className="text-slate-300 leading-relaxed text-sm">
+          <div className="mt-3 pl-3 border-l border-[#f9e900]/40 space-y-2">
+            <p className="text-[#e6eef0] leading-relaxed text-sm">
               Si tu lis ceci, tu fais partie des rares qui prennent le temps de
               regarder <em>sous</em> la surface. C&apos;est exactement le genre
               d&apos;esprit que j&apos;apprécie dans une équipe.
             </p>
-            <p className="text-slate-300 text-sm">
+            <p className="text-[#e6eef0] text-sm">
               N&apos;hésite pas à me contacter, tu sais déjà où me trouver.
             </p>
-            <p className="text-violet-400 text-sm mt-3">- Evan Quinchon</p>
+            <p className="text-[#f9e900] text-sm mt-3">- Evan Quinchon</p>
           </div>
         </motion.div>
 
@@ -124,7 +122,7 @@ function AchievementModal({ onClose }: { onClose: () => void }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
           onClick={onClose}
-          className="w-full py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-violet-500/30 transition-all duration-300"
+          className="w-full py-2.5 bg-[#e6eef0] text-[#07080a] text-sm font-semibold hover:bg-[#f9e900] transition-colors"
         >
           Fermer
         </motion.button>
@@ -159,7 +157,7 @@ export default function ConsoleGame() {
 
   // ── Styled console helpers ────────────────────────────────────────────
   const V =
-    "color:#8b5cf6;font-family:monospace;font-size:12px;font-weight:bold;";
+    "color:#f9e900;font-family:monospace;font-size:12px;font-weight:bold;";
   const G = "color:#4ade80;font-family:monospace;font-size:12px;";
   const R = "color:#ef4444;font-family:monospace;font-size:12px;";
   const M = "color:#475569;font-family:monospace;font-size:11px;";
@@ -230,13 +228,13 @@ export default function ConsoleGame() {
     const HINTS: Record<GameStage, string[]> = {
       s1: [
         "Certains éléments réagissent si tu insistes vraiment.",
-        "Ton parcours, tes compétences, ton identité et tes valeurs cachent quelque chose.",
+        "Mon nom et les numéros de certaines sections cachent quelque chose.",
         "Le code est le nom d'une école de code parisienne. 4 lettres.",
       ],
       s2: [
         "ROT13 : chaque lettre est décalée de 13 positions dans l'alphabet.",
-        "La réponse est un chiffre visible dans une section statistique.",
-        "Regarde la section Stats. Combien d'années ?",
+        "La réponse est un chiffre visible dès l'arrivée sur la page.",
+        "Regarde les chiffres sous mon nom. Combien d'années ?",
       ],
       s3: [
         "Cherche un lien social dans la section Hero.",
