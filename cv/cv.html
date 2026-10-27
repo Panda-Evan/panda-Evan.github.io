@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>CV - Evan Quinchon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Dela+Gothic+One&family=JetBrains+Mono:wght@400;500;700&family=Tektur:wdth,wght@75..100,400..900&display=block"
+  rel="stylesheet"
+/>
+<style>
+  /* Same tokens as the site's dark theme (src/app/globals.css). */
+  :root {
+    --paper: #07080a;
+    --surface: #0f1215;
+    --ink: #e6eef0;
+    --muted: #7d8b90;
+    --line: #232b30;
+    --accent: #f9e900;
+    --cyan: #00e5ff;
+    --red: #ff2a4d;
+  }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); }
+  body {
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    position: relative;
+    color: var(--ink);
+    font-family: "Chakra Petch", sans-serif;
+    font-size: 8.3pt;
+    line-height: 1.34;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .display { font-family: "Tektur", sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.88; }
+  .label { font-family: "JetBrains Mono", monospace; font-size: 6.6pt; letter-spacing: 0.08em; text-transform: uppercase; }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  .accent { color: var(--accent); }
+  .cyan { color: var(--cyan); }
+  .muted { color: var(--muted); }
+
+  .chamfer { --cut: 3mm; clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut))); }
+  .hazard { background: repeating-linear-gradient(-45deg, var(--accent) 0 2.6mm, var(--paper) 2.6mm 5.2mm); }
+  /* HUD frame: four corner brackets. */
+  .hud {
+    --c: var(--accent); --l: 3mm;
+    background:
+      linear-gradient(var(--c), var(--c)) top left / var(--l) 0.45mm no-repeat,
+      linear-gradient(var(--c), var(--c)) top left / 0.45mm var(--l) no-repeat,
+      linear-gradient(var(--c), var(--c)) top right / var(--l) 0.45mm no-repeat,
+      linear-gradient(var(--c), var(--c)) top right / 0.45mm var(--l) no-repeat,
+      linear-gradient(var(--c), var(--c)) bottom left / var(--l) 0.45mm no-repeat,
+      linear-gradient(var(--c), var(--c)) bottom left / 0.45mm var(--l) no-repeat,
+      linear-gradient(var(--c), var(--c)) bottom right / var(--l) 0.45mm no-repeat,
+      linear-gradient(var(--c), var(--c)) bottom right / 0.45mm var(--l) no-repeat;
+  }
+
+  .top-hazard { position: absolute; inset: 0 0 auto 0; height: 2.4mm; }
+  .page { position: absolute; inset: 2.4mm 0 0 0; padding: 6mm 11mm 0; }
+
+  /* Header */
+  header { display: grid; grid-template-columns: 1fr 27mm; gap: 7mm; align-items: start; }
+  .status { display: flex; justify-content: space-between; border-top: 0.25mm solid var(--line); border-bottom: 0.25mm solid var(--line); padding: 1.3mm 0; margin-bottom: 3.5mm; }
+  .status b { color: var(--accent); font-weight: 500; }
+  h1 { font-size: 33pt; }
+  h1 .last { color: var(--accent); }
+  h1 .cursor { display: inline-block; width: 0.42em; height: 0.09em; background: var(--cyan); margin-left: 0.06em; vertical-align: 0.02em; }
+  .jp { font-family: "Dela Gothic One", sans-serif; color: var(--muted); font-size: 8pt; margin-top: 2mm; letter-spacing: 0.05em; }
+  .role { margin-top: 2.2mm; font-size: 10pt; font-weight: 600; }
+  .role .sep { color: var(--muted); font-weight: 400; }
+  .available { display: inline-flex; align-items: center; gap: 1.6mm; margin-top: 2.2mm; padding: 0.9mm 2.2mm; background: var(--accent); color: var(--paper); font-weight: 700; }
+  .available::before { content: ""; width: 1.4mm; height: 1.4mm; background: var(--paper); }
+
+  .portrait { position: relative; width: 27mm; aspect-ratio: 3 / 4; overflow: hidden; background: #000; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .portrait .hazard { position: absolute; inset: 0 0 auto 0; height: 1.2mm; }
+  .portrait .scan { position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.22) 0 0.25mm, transparent 0.25mm 0.75mm); }
+  .portrait .tag { position: absolute; inset: auto 0 0 0; background: rgba(7,8,10,0.82); color: var(--accent); text-align: center; padding: 0.7mm 0; font-size: 5.4pt; }
+
+  .contacts { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 1.2mm 4mm; margin-top: 3.8mm; padding: 2mm 3.4mm; background: var(--surface); }
+  .contacts span { font-family: "JetBrains Mono", monospace; font-size: 7pt; }
+  .contacts span::before { content: "> "; color: var(--accent); }
+
+  /* Body */
+  .body { display: grid; grid-template-columns: 1fr 52mm; gap: 7mm; margin-top: 4.2mm; }
+  section + section { margin-top: 3.6mm; }
+  h2 { display: flex; align-items: center; gap: 2mm; margin-bottom: 1.8mm; }
+  h2 .idx { color: var(--accent); }
+  h2 .title { font-family: "Tektur", sans-serif; font-weight: 800; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.01em; }
+  h2::after { content: ""; flex: 1; height: 0.25mm; background: var(--line); }
+
+  .lead { color: var(--muted); }
+  .lead strong { color: var(--ink); font-weight: 600; }
+
+  .job { position: relative; padding: 2.4mm 3mm 2.6mm; background: var(--surface); }
+  .job + .job { margin-top: 2mm; }
+  .job .meta { display: flex; gap: 2mm; color: var(--muted); }
+  .job .meta .when { color: var(--ink); }
+  .job h3 { font-family: "Tektur", sans-serif; font-weight: 800; font-size: 9.4pt; text-transform: uppercase; margin-top: 1mm; line-height: 1.05; }
+  .job .org { font-family: "JetBrains Mono", monospace; font-size: 7.4pt; margin-top: 0.8mm; }
+  .job .org::before { content: "@ "; color: var(--accent); }
+  .job p.desc { color: var(--muted); margin-top: 1.2mm; }
+  ul.points { list-style: none; margin-top: 1.2mm; }
+  ul.points li { display: grid; grid-template-columns: 3mm 1fr; }
+  ul.points li + li { margin-top: 0.45mm; }
+  ul.points li::before { content: ">"; font-family: "JetBrains Mono", monospace; color: var(--accent); }
+  .chips { display: flex; flex-wrap: wrap; gap: 1mm; margin-top: 1.6mm; }
+  .chips span { font-family: "JetBrains Mono", monospace; font-size: 6.2pt; text-transform: uppercase; padding: 0.35mm 1.3mm; border: 0.25mm solid var(--line); color: var(--muted); }
+  .badge { position: absolute; top: 3mm; right: 3.4mm; padding: 0.3mm 1.4mm; border: 0.25mm solid var(--line); }
+
+  .bac { margin-top: 1.8mm; padding: 0 1mm; }
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; }
+  .project { padding: 2.4mm 2.8mm; background: var(--surface); }
+  .project h4 { font-family: "Tektur", sans-serif; font-weight: 800; font-size: 8.8pt; text-transform: uppercase; display: flex; justify-content: space-between; align-items: baseline; gap: 2mm; }
+  .project h4 .label { color: var(--accent); font-weight: 400; }
+  .project p { color: var(--muted); font-size: 7.6pt; margin-top: 0.8mm; line-height: 1.32; }
+  .project .stack { font-family: "JetBrains Mono", monospace; font-size: 6.2pt; color: var(--cyan); margin-top: 1mm; text-transform: uppercase; }
+
+  aside .group + .group { margin-top: 2.6mm; }
+  aside .group .label { color: var(--muted); display: block; margin-bottom: 1.1mm; }
+  aside .chips { margin-top: 0; }
+  aside .chips span.hot { border-color: var(--accent); color: var(--accent); }
+  .values { list-style: none; }
+  .values li { display: grid; grid-template-columns: 6mm 1fr; padding: 0.9mm 0; border-bottom: 0.25mm solid var(--line); }
+  .values li span:first-child { font-family: "JetBrains Mono", monospace; font-size: 6.6pt; color: var(--accent); padding-top: 0.4mm; }
+  .hobby + .hobby { margin-top: 1.8mm; }
+  .hobby b { font-weight: 600; }
+  .hobby div { color: var(--muted); font-size: 7.6pt; }
+
+  .qr { display: grid; grid-template-columns: 19mm 1fr; gap: 3mm; align-items: center; padding: 3mm; }
+  .qr img { width: 19mm; height: 19mm; display: block; }
+  .qr p { font-size: 7.4pt; color: var(--muted); }
+  .qr p b { display: block; color: var(--ink); font-family: "Tektur", sans-serif; font-weight: 800; text-transform: uppercase; font-size: 8.4pt; margin-bottom: 0.6mm; }
+
+  footer { position: absolute; left: 11mm; right: 11mm; bottom: 4.5mm; display: flex; justify-content: space-between; color: var(--muted); border-top: 0.25mm solid var(--line); padding-top: 1.6mm; }
+</style>
+</head>
+<body>
+  <div class="top-hazard hazard"></div>
+
+  <div class="page">
+    <div class="status label">
+      <span><b>ID::</b> Développeur front-end</span>
+      <span><b>LOC::</b> Paris, FR</span>
+      <span><b>SYS::</b> CV 2026 // Dossier EQ-0001</span>
+    </div>
+
+    <header>
+      <div>
+        <h1 class="display">Evan<br /><span class="last">Quinchon</span><span class="cursor"></span></h1>
+        <p class="jp">エヴァン・カンション ／ フロントエンド開発者</p>
+        <p class="role">Développeur front-end <span class="sep">//</span> React · Next.js · TypeScript</p>
+        <span class="available label">Disponible immédiatement</span>
+      </div>
+      <div class="portrait chamfer">
+        <img src="../public/about/evan.jpg" alt="Evan Quinchon" />
+        <div class="hazard"></div>
+        <div class="scan"></div>
+        <div class="tag label">Identité vérifiée</div>
+      </div>
+    </header>
+
+    <div class="contacts chamfer">
+      <span>evan.quinchon42@gmail.com</span>
+      <span>+33 7 86 64 28 94</span>
+      <span>Paris, France</span>
+      <span>panda-evan.github.io</span>
+      <span>linkedin.com/in/e-quinchon</span>
+      <span>github.com/Panda-Evan</span>
+    </div>
+
+    <div class="body">
+      <main>
+        <section>
+          <h2><span class="label idx">// 01</span><span class="title">Profil</span></h2>
+          <p class="lead">
+            Développeur front-end <strong>diplômé Bac+5 (RNCP niveau 7)</strong>, <strong>trois ans d'alternance chez Cliq Digital</strong>
+            sur un parc de sites marchands en production. Intégration au pixel près, composants réutilisables.
+          </p>
+        </section>
+
+        <section>
+          <h2><span class="label idx">// 02</span><span class="title">Expérience</span></h2>
+          <div class="job chamfer">
+            <span class="badge label">Alternance</span>
+            <div class="meta label"><span class="accent">&gt; Journal_01</span><span>::</span><span class="when">2023 → 2026</span></div>
+            <h3>Développeur front-end</h3>
+            <p class="org">Cliq Digital <span class="muted">· Paris</span></p>
+            <p class="desc">Équipe de 3 développeurs, parc de sites marchands en Next.js (rendu côté serveur), React et TypeScript.</p>
+            <ul class="points">
+              <li><span><b>5 à 6 sites complets</b> livrés sur la dernière année, tous en production (~1 semaine par site, 1 à 2 jours par déclinaison).</span></li>
+              <li><span><b>123 demandes traitées en un an</b> (~3 par semaine), de la maquette à la mise en production.</span></li>
+              <li><span>Maintenance de <b>17 sites</b>, ~200 sites de l'ancienne génération et une centaine de pages de paiement, en <b>10 locales</b>.</span></li>
+              <li><span>Deux générations d'architecture : générateur à composants partagés (~1 700 sites), puis composants par site.</span></li>
+              <li><span>Intégration fidèle aux maquettes sur tous les écrans ; évolutions du tunnel de paiement.</span></li>
+              <li><span>Composant codé en dur refactorisé pour tous les sites, au-delà du périmètre du ticket.</span></li>
+              <li><span>Revue de code, déploiements préprod / prod ; usage encadré de l'IA (relecture, conventions).</span></li>
+            </ul>
+            <div class="chips"><span>Next.js</span><span>React</span><span>TypeScript</span><span>Tailwind</span><span>GitHub</span><span>Jira</span><span>AWS S3</span></div>
+          </div>
+        </section>
+
+        <section>
+          <h2><span class="label idx">// 03</span><span class="title">Formation</span></h2>
+          <div class="job chamfer">
+            <span class="badge label accent">Diplômé ✓</span>
+            <div class="meta label"><span class="accent">&gt; Journal_02</span><span>::</span><span class="when">2022 → 2026</span></div>
+            <h3>Architecte de Systèmes d'Information</h3>
+            <p class="org">L'ETNA <span class="muted">· Ivry-sur-Seine</span></p>
+            <p class="desc">RNCP 38114, niveau 7 (Bac+5), en alternance : développement web, architecture d'applications, système. Projet de fin d'études : Kollexo.</p>
+          </div>
+          <p class="bac"><span class="label accent">&gt; 2020 → 2022</span> <b>Baccalauréat général</b> <span class="muted">· Lycée C.-N. Ledoux, Paris · NSI, Maths</span></p>
+        </section>
+
+        <section>
+          <h2><span class="label idx">// 04</span><span class="title">Projets</span></h2>
+          <div class="projects">
+            <div class="project chamfer">
+              <h4>Kollexo <span class="label">En ligne</span></h4>
+              <p>Plateforme pour collectionneurs : marketplace, échanges, communauté. Team lead front.</p>
+              <div class="stack">Next.js · React · TS · Symfony</div>
+            </div>
+            <div class="project chamfer">
+              <h4>Ce portfolio <span class="label">En ligne</span></h4>
+              <p>Site en « rayons X » : scanner du DOM et squelette 3D en three.js.</p>
+              <div class="stack">Next.js · Three.js · Framer Motion</div>
+            </div>
+            <div class="project chamfer">
+              <h4>L'épreuve Python</h4>
+              <p>Entraînement en 5 niveaux, Python exécuté dans le navigateur.</p>
+              <div class="stack">JS · Pyodide · Flask · Docker</div>
+            </div>
+            <div class="project chamfer">
+              <h4>RPG CLI <span class="label">V1</span></h4>
+              <p>RPG en pixel art dans le terminal, moteur de rendu maison.</p>
+              <div class="stack">Python · aucune dépendance</div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside>
+        <section>
+          <h2><span class="title">Compétences</span></h2>
+          <div class="group">
+            <span class="label">Front-end</span>
+            <div class="chips"><span class="hot">React</span><span class="hot">Next.js</span><span class="hot">TypeScript</span><span>JavaScript</span><span class="hot">Tailwind CSS</span><span>SCSS</span><span>Framer Motion</span><span>Three.js</span></div>
+          </div>
+          <div class="group">
+            <span class="label">Back-end &amp; data</span>
+            <div class="chips"><span>Node.js</span><span>REST API</span><span>PHP Symfony</span><span>Flask</span><span>PostgreSQL</span><span>SQLite</span></div>
+          </div>
+          <div class="group">
+            <span class="label">Langages</span>
+            <div class="chips"><span>Python</span><span>Kotlin</span><span>Dart</span><span>C++</span></div>
+          </div>
+          <div class="group">
+            <span class="label">Outils</span>
+            <div class="chips"><span>GitHub</span><span>Jira</span><span>AWS S3</span><span>Docker</span></div>
+          </div>
+        </section>
+
+        <section>
+          <h2><span class="title">Méthode</span></h2>
+          <ul class="values">
+            <li><span>P01</span><span>Pixel-perfect sans sacrifier la maintenabilité</span></li>
+            <li><span>P02</span><span>Accessibilité et performance dès le premier commit</span></li>
+            <li><span>P03</span><span>Composants réutilisables, design system d'abord</span></li>
+            <li><span>P04</span><span>Communication claire avec le design et le back</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><span class="title">Hors du code</span></h2>
+          <div class="hobby"><b>Jeux vidéo</b><div>Compétition et speedrun.</div></div>
+          <div class="hobby"><b>Cosplay</b><div>Props modélisés et imprimés en 3D.</div></div>
+          <div class="hobby"><b>Side projects</b><div>Veille UI et nouvelles API du navigateur.</div></div>
+        </section>
+
+        <section>
+          <div class="qr hud">
+            <img src="qr.svg" alt="QR code vers panda-evan.github.io" />
+            <p><b>Version interactive</b>Scanne pour ouvrir le portfolio.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="label">
+      <span><span class="accent">©</span> 2026 // EQ-0001</span>
+      <span>Conçu et codé à la main, comme le portfolio</span>
+    </footer>
+  </div>
+</body>
+</html>
