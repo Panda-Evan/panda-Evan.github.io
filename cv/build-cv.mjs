@@ -1,8 +1,3 @@
-/**
- * Renders cv/cv.html to public/cv.pdf with a headless Chromium browser (Edge or Chrome).
- * Usage: node cv/build-cv.mjs [--preview]   (--preview also writes cv/preview.png)
- * Set BROWSER to the browser executable if it is not found automatically.
- */
 import { spawn } from "node:child_process";
 import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -68,7 +63,6 @@ await send("Page.enable");
 await send("Emulation.setDeviceMetricsOverride", { width: 794, height: 1123, deviceScaleFactor: 2, mobile: false });
 await send("Page.navigate", { url: input });
 await sleep(1500);
-// Wait for Google Fonts and the portrait before printing.
 await send("Runtime.evaluate", {
   expression: "Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))])",
   awaitPromise: true,
@@ -97,5 +91,5 @@ proc.kill();
 await sleep(300);
 try {
   rmSync(profile, { recursive: true, force: true });
-} catch {}
+} catch { }
 process.exit(0);
